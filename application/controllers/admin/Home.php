@@ -8,10 +8,9 @@ class Home extends CI_Controller {
         parent::__construct();
         //$this->load->library('session');
 		$this->load->model('sentril_model','',true);
-		$this->load->helper(array('url','form','file'),'',true);
-		// if ($this->session->userdata('nama')=="") {
-		// 	redirect('login');
-		// }
+		$this->load->helper(array('form','file','akses'),'',true);
+		
+		cek_admin();
 	}
 	
 	public function index()
