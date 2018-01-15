@@ -3,13 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
 
-	function __construct(){
-		parent::__construct();
-		$this->load->helper(array('form', 'akses'));
-        $this->load->library('form_validation');
-        $this->load->model('login_model');
-        cek_user();
-	}
+  	function __construct(){
+  		parent::__construct();
+  		$this->load->helper(array('form', 'akses'));
+          $this->load->library('form_validation');
+          $this->load->model('login_model');
+          cek_user();
+  	}
 	
 	public function index()
 	{

@@ -7,10 +7,12 @@ class Home extends CI_Controller {
     {
         parent::__construct();
       	$this->load->helper("akses");
+      	// $this->load->session()
       	cek_superuser();
 	}
 	
 	function index(){
+		echo $this->session->userdata('level');
 		echo "superuser";
 	}
 	
