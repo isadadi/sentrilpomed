@@ -33,16 +33,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form action="" method="post">
+            <form action="<?=base_url('home')?>" method="post">
               <h1>Login Form</h1>
+
+              <span style="color: red">
+              <?php echo validation_errors(); ?>
+              <?php echo @$error ?>
+            </span>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+                <input type="text" class="form-control" name="username" placeholder="Username" />
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+                <input type="password" class="form-control" name="password" placeholder="Password" />
               </div>
               <div>
-                <a class="btn btn-default submit" type="submit" href="<?=base_url('admin/home')?>">Log in</a>
+                <input class="btn btn-default submit" type="submit" value="Log in" name="submit"></input>
                 <a class="reset_pass" href="#">Lost your password?</a>
               </div>
 
