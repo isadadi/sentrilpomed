@@ -39,19 +39,39 @@ class Home extends CI_Controller {
 		$pj = $this->input->post('pj');
 		$ket = $this->input->post('keterangan');
 
+		$tgl = explode("-", $tgl);
+		$trget = str_replace(".", "",$target);
+		$anggrn = str_replace(".", "",$anggaran);
+
+		$bln["January"] = "01";
+		$bln["February"] = "02";
+		$bln["March"] = "03";
+		$bln["April"] = "04";
+		$bln["May"] = "05";
+		$bln["June"] = "06";
+		$bln["July"] = "07";
+		$bln["August"] = "08";
+		$bln["September"] = "09";
+		$bln["October"] = "10";
+		$bln["November"] = "11";
+		$bln["December"] = "12";
+
+		$tanggal = $tgl[2]."-".$bln[$tgl[1]]."-".$tgl[0];
+		//var_dump($tanggal);die;
 		$data = array(
 			'id_kegiatan'=>$id,
 			'nama_kegiatan'=>$nama,
-			'target'=>$target,
-			'anggaran'=>$anggaran,
+			'target'=>$trget,
+			'anggaran'=>$anggrn,
 			'realisasi'=>0,
-			'tanggal'=>$tgl,
+			'tanggal'=>$tanggal,
 			'lokasi'=>$lokasi,
 			'realisasi_anggaran'=>0,
 			'sisa_anggaran'=>0,
 			'keterangan'=>$ket
 		);
 
-		var_dump($data);	
+		$this->sentril_model->insert_data("tbl_kegiatan",$data);
+		redirect('admin/home/kegiatan');
 	}
 }

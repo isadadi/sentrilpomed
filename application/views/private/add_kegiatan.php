@@ -27,6 +27,11 @@
     <link href="<?=base_url('assets/vendors/iCheck/skins/flat/green.css')?>" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="<?=base_url('assets/build/css/custom.min.css')?>" rel="stylesheet">
+
+    <!--Live Validation Numbers-->
+    <script src="<?=base_url('assets/vendors/live-validation/livevalidation_standalone.js')?>"></script>
+    <script src="<?=base_url('assets/vendors/live-validation/my.js')?>"></script>
+    <script src="<?=base_url('assets/vendors/jquery/dist/jquery.min.js')?>"></script>
   </head>
 
   <body class="nav-md">
@@ -260,33 +265,34 @@
                   </div>
                   <div class="x_content">
 
-                    <form class="form-horizontal form-label-left" novalidate method="post" action="<?=base_url('admin/home/insert_proccess')?>">
+                    <form class="form-horizontal form-label-left" novalidate method="post" action="<?=base_url('admin/home/insert_proccess')?>" id="aas">
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="id">ID Kegiatan <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="id" class="form-control col-md-7 col-xs-12" name="id" placeholder="id kegiatan" required="required" type="text">
+                          <input id="inputN" class="form-control col-md-7 col-xs-12" name="id" placeholder="id kegiatan" type="text" required="required">
                         </div>
+
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nama">Nama Kegiatan <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="nama" name="nama" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="nama" name="nama" class="form-control col-md-7 col-xs-12" required="required">
                         </div>
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="target">Target <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="target" name="target" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="target" name="target" class="form-control col-md-7 col-xs-12" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);" required="required">
                         </div>
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="anggaran" >Anggaran <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="anggaran" name="anggaran" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="anggaran" name="anggaran" class="form-control col-md-7 col-xs-12" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);" required="required">
                         </div>
                       </div>
                       <!-- <div class="item form-group">
@@ -300,7 +306,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Tanggal <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" class="form-control has-feedback-left" id="single_cal1" placeholder="First Name" name="tanggal" aria-describedby="inputSuccess2Status" required="required" >
+                            <input type="text" class="form-control has-feedback-left" id="dateaja" placeholder="First Name" name="tanggal" aria-describedby="inputSuccess2Status" required="required">
                             <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                             <span id="inputSuccess2Status" class="sr-only">(success)</span>
                         </div>
@@ -321,7 +327,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="keterangan">Keterangan <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <textarea id="keterangan" required="required" name="keterangan" class="form-control col-md-7 col-xs-12"></textarea>
+                          <textarea id="keterangan"  name="keterangan" class="form-control col-md-7 col-xs-12" required="required"></textarea >
                         </div>
                       </div>
                       <div class="ln_solid"></div>
@@ -356,6 +362,31 @@
         $('#tgl').datetimepicker({format : "DD/MMMM/YYYY"});
       });
     </script>
+
+    <script>
+        $(document).ready(function() {
+        $("#inputN").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                 // Allow: Ctrl/cmd+A
+                (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: Ctrl/cmd+C
+                (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: Ctrl/cmd+X
+                (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+                 // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                     // let it happen, don't do anything
+                     return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+    });
+});
+
+    </script>
     <!-- jQuery -->
     <script src="<?=base_url('assets/vendors/jquery/dist/jquery.min.js')?>"></script>
     <!-- Bootstrap -->
@@ -381,6 +412,18 @@
 
     <!-- Custom Theme Scripts -->
     <script src="<?=base_url('assets/build/js/custom.min.js')?>"></script>
-  
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $("#dateaja").daterangepicker({
+          singleDatePicker: true,
+          locale: {
+                format: 'DD-MMMM-YYYY'
+          }
+        });
+      });
+    </script>
+    <script type="text/javascript">
+
+    </script>
   </body>
 </html>

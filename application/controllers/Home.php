@@ -13,7 +13,7 @@ class Home extends CI_Controller {
 	
 	public function index()
 	{
-		if(isset($_POST['submit'])){
+   	if(isset($_POST['submit'])){
 			 $this->form_validation->set_rules('username', 'Username', 'required',  array('required' => ' Masukkan Username.'));
              $this->form_validation->set_rules('password', 'Password', 'required', array('required' => 'Masukkan Password.'));
               if ($this->form_validation->run())
