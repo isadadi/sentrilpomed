@@ -22,9 +22,49 @@ class Home extends CI_Controller {
 	public function kegiatan()
 	{
 		$data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
+		$data['total'] = $this->sentril_model->db->query("SELECT count(id_kegiatan) AS total_kegiatan, SUM(anggaran) AS total_anggaran, SUM(sisa_anggaran) AS sisa_anggaran FROM tbl_kegiatan")->result();
 		//var_dump($data);die;
 		$this->load->view('spuser/templates/header_table');
 		$this->load->view('spuser/kegiatan',$data);
+		$this->load->view('spuser/templates/footer_table');
+	}
+
+	public function user()
+	{
+		$data['row'] = $this->sentril_model->get_all_data("tbl_user")->result_array();
+		//var_dump($data);die;
+		$this->load->view('spuser/templates/header_table');
+		$this->load->view('spuser/user',$data);
+		$this->load->view('spuser/templates/footer_table');
+	}
+
+	public function add_user()
+	{
+		$this->load->view('spuser/templates/header_table');
+		$this->load->view('spuser/add_user');
+		$this->load->view('spuser/templates/footer_table');
+	}
+
+	public function insert_proccess_user(){
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
+		$level = $this->input->post('level');
+		
+		$data = array(
+			'username'=>$username,
+			'password'=>$password,
+			'level'=>$level,
+		);
+
+		$this->sentril_model->insert_data("tbl_user",$data);
+		redirect('superuser/home/user');
+	}
+	public function log_subkegiatan()
+	{
+		$data['row'] = $this->sentril_model->get_all_data("tbl_subkegiatan")->result_array();
+		//var_dump($data);die;
+		$this->load->view('spuser/templates/header_table');
+		$this->load->view('spuser/subkegiatan',$data);
 		$this->load->view('spuser/templates/footer_table');
 	}
 
@@ -73,7 +113,7 @@ class Home extends CI_Controller {
 			'lokasi'=>$lokasi,
 			'nama_pj'=>$pj,
 			'realisasi_anggaran'=>0,
-			'sisa_anggaran'=>0,
+			'sisa_anggaran'=>$anggrn,
 			'keterangan'=>$ket
 		);
 
@@ -87,6 +127,22 @@ class Home extends CI_Controller {
 			$this->sentril_model->delete_data("tbl_kegiatan","id_kegiatan",$id[$i]);
 		}
 		redirect('superuser/home/kegiatan');
+	}
+	public function delete_subkegiatan(){
+		$id = $this->input->post('checkbox');# Using Form POST method you can use whatever you want like GET
+		//var_dump($id);die;
+		for ($i=0; $i < count($id) ; $i++) { 
+			$this->sentril_model->delete_data("tbl_subkegiatan","id_subkegiatan",$id[$i]);
+		}
+		redirect('superuser/home/kegiatan');
+	}
+	public function delete_user(){
+		$id = $this->input->post('checkbox');# Using Form POST method you can use whatever you want like GET
+		//var_dump($id);die;
+		for ($i=0; $i < count($id) ; $i++) { 
+			$this->sentril_model->delete_data("tbl_user","id_user",$id[$i]);
+		}
+		redirect('superuser/home/user');
 	}
 	
 }

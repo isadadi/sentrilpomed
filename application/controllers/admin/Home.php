@@ -37,6 +37,13 @@ class Home extends CI_Controller {
 		$this->load->view('private/templates/footer_insert');
 	}
 
+	public function cari_kegiatan(){
+		$data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
+		//var_dump($data);die;
+		$this->load->view('private/templates/header_insert');
+		$this->load->view('private/cari_kegiatan',$data);
+		$this->load->view('private/templates/footer_insert');
+	}
 	public function insert_proccess(){
 		$id = $this->input->post('id');
 		$anggaran = $this->input->post('anggaran');
@@ -73,10 +80,10 @@ class Home extends CI_Controller {
 		//var_dump($tanggal);die;
 		$data = array(
 			'id_kegiatan'=>$id,
-			'tanggal'=>$tanggal,
+			'tanggal_kegiatan'=>$tanggal,
 			'anggaran'=>$anggrn,
 			'lokasi'=>$lokasi,
-			'nama_pj'=>$pj,
+			'pj_kegiatan'=>$pj,
 			'keterangan'=>$ket
 		);
 
@@ -86,7 +93,7 @@ class Home extends CI_Controller {
 			$nama_file   = $_FILES['fupload']['name'];
 			// Tentukan folder untuk menyimpan file
 			$folder = "./assets/file/";
-			$namafilenya ="$nama_file".$image;
+			$namafilenya ="$id-$tanggal-$nama_file";
 			$alamat=$folder.$namafilenya;
 			if (move_uploaded_file($lokasi_file,$alamat))
 			{
@@ -95,8 +102,12 @@ class Home extends CI_Controller {
 			}
 		}
 
-		var_dump($data);die;
-		$this->sentril_model->insert_data("tbl_kegiatan",$data);
+		//var_dump($data);die;
+		$this->sentril_model->insert_data("tbl_subkegiatan",$data);
+		$a = $this->sentril_model->db->query("SELECT count(id_kegiatan) AS total_kegiatan, sum(anggaran) total_anggaran FROM tbl_subkegiatan WHERE id_kegiatan=$id ORDER BY id_kegiatan;")->row_array();
+
+		$total =$a['total_kegiatan'];$anggaran=$a['total_anggaran']; 
+		$this->sentril_model->db->query("UPDATE tbl_kegiatan SET realisasi=$total,realisasi_anggaran=$anggaran,sisa_anggaran=sisa_anggaran-$anggrn WHERE id_kegiatan=$id;");
 		redirect('admin/home/kegiatan');
 	}
 	

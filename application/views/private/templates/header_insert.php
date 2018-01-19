@@ -59,6 +59,7 @@
 
             <br />
 
+           
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
@@ -68,35 +69,26 @@
                   </li>
                   <li><a><i class="fa fa-edit"></i> Tambah Kegiatan <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form.html">General Form</a></li>
+                      <li><a href="<?=base_url('admin/home/cari_kegiatan')?>">Cari kegiatan</a></li>
                       <li><a href="<?=base_url('admin/home/add_kegiatan')?>">Tambah Kegiatan</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-desktop"></i> Laporan Kegiatan <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="general_elements.html">General Elements</a></li>
-                      <li><a href="media_gallery.html">Media Gallery</a></li>
-                      <li><a href="typography.html">Typography</a></li>
+                      <li><a href="#">Laporan kegiatan</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-table"></i> Tabel Kegiatan <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?=base_url('admin/home/kegiatan')?>">Kegiatan</a></li>
-                      <li><a href="tables_dynamic.html">Table Dynamic</a></li>
                     </ul>
                   </li>
                 </ul>
               </div>
               <div class="menu_section">
-                <h3>Live On</h3>
+                <h3>Lainnya</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="e_commerce.html">E-commerce</a></li>
-                      <li><a href="projects.html">Projects</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-windows"></i> Extras</a>
+                  <li><a><i class="fa fa-windows"></i>Lainnya</a>
                     
                 </ul>
               </div>
@@ -240,26 +232,4 @@
             </div>
             <div class="clearfix"></div>
 
-            <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Tambah Kegiatan<small>sub title</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                     <!--  <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li> -->
-                      <li><a href="<?=base_url('admin/home/kegiatan')?>"><button class="btn btn-primary"><i class="fa fa-chevron-left"></i> Kembali</button></a> </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
+            
