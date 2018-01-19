@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.7.0
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 15, 2018 at 06:51 AM
--- Server version: 10.1.16-MariaDB
--- PHP Version: 7.0.9
+-- Generation Time: 19 Jan 2018 pada 15.30
+-- Versi Server: 10.1.25-MariaDB
+-- PHP Version: 7.1.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -23,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_kegiatan`
+-- Struktur dari tabel `tbl_kegiatan`
 --
 
 CREATE TABLE `tbl_kegiatan` (
@@ -41,17 +43,34 @@ CREATE TABLE `tbl_kegiatan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_kegiatan`
+-- Dumping data untuk tabel `tbl_kegiatan`
 --
 
 INSERT INTO `tbl_kegiatan` (`id_kegiatan`, `nama_kegiatan`, `target`, `anggaran`, `realisasi`, `tanggal`, `lokasi`, `nama_pj`, `realisasi_anggaran`, `sisa_anggaran`, `keterangan`) VALUES
-(18001, 'Penyuluhan Obat', 10, 10000000, 7, '2018-01-02', 'Binjai', 'fadly', 9000000, 1000000, 'Sangat menarik dan menawan'),
+(18001, 'Penyuluhan Obat', 10, 13459870, 7, '2018-01-02', 'Binjai', 'fadly', 9000000, 1000000, 'Sangat menarik dan menawan'),
 (18002, 'Penyuluhan Makanan', 8, 15000000, 6, '2018-01-04', 'Medan', 'Sulaiman', 14000000, 1000000, 'Sangat luar biasa dan mempesona kita semua');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_user`
+-- Struktur dari tabel `tbl_subkegiatan`
+--
+
+CREATE TABLE `tbl_subkegiatan` (
+  `id_subkegiatan` int(9) NOT NULL,
+  `id_kegiatan` int(9) NOT NULL,
+  `tanggal_kegiatan` date NOT NULL,
+  `anggaran` bigint(100) NOT NULL,
+  `lokasi` varchar(255) NOT NULL,
+  `pj_kegiatan` varchar(255) NOT NULL,
+  `keterangan` text NOT NULL,
+  `file` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tbl_user`
 --
 
 CREATE TABLE `tbl_user` (
@@ -62,7 +81,7 @@ CREATE TABLE `tbl_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_user`
+-- Dumping data untuk tabel `tbl_user`
 --
 
 INSERT INTO `tbl_user` (`id_user`, `username`, `password`, `level`) VALUES
@@ -81,6 +100,12 @@ ALTER TABLE `tbl_kegiatan`
   ADD PRIMARY KEY (`id_kegiatan`);
 
 --
+-- Indexes for table `tbl_subkegiatan`
+--
+ALTER TABLE `tbl_subkegiatan`
+  ADD PRIMARY KEY (`id_subkegiatan`);
+
+--
 -- Indexes for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
@@ -91,10 +116,16 @@ ALTER TABLE `tbl_user`
 --
 
 --
+-- AUTO_INCREMENT for table `tbl_subkegiatan`
+--
+ALTER TABLE `tbl_subkegiatan`
+  MODIFY `id_subkegiatan` int(9) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `id_user` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_user` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

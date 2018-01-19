@@ -15,24 +15,30 @@ class Home extends CI_Controller {
 	
 	public function index()
 	{
+		$this->load->view('private/templates/header_home');
 		$this->load->view('private/home');
+		$this->load->view('private/templates/footer_home');
 	}
 
 	public function kegiatan()
 	{
 		$data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
 		//var_dump($data);die;
+		$this->load->view('private/templates/header_table');
 		$this->load->view('private/kegiatan',$data);
+		$this->load->view('private/templates/footer_table');
 	}
 
 	public function add_kegiatan(){
-		$this->load->view('private/add_kegiatan');
+		$data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
+		//var_dump($data);die;
+		$this->load->view('private/templates/header_insert');
+		$this->load->view('private/add_kegiatan',$data);
+		$this->load->view('private/templates/footer_insert');
 	}
 
 	public function insert_proccess(){
 		$id = $this->input->post('id');
-		$nama = $this->input->post('nama');
-		$target = $this->input->post('target');
 		$anggaran = $this->input->post('anggaran');
 		$tgl = $this->input->post('tanggal');
 		$lokasi = $this->input->post('lokasi');
@@ -40,7 +46,6 @@ class Home extends CI_Controller {
 		$ket = $this->input->post('keterangan');
 
 		$tgl = explode("-", $tgl);
-		$trget = str_replace(".", "",$target);
 		$anggrn = str_replace(".", "",$anggaran);
 
 		$bln["January"] = "01";
@@ -57,21 +62,42 @@ class Home extends CI_Controller {
 		$bln["December"] = "12";
 
 		$tanggal = $tgl[2]."-".$bln[$tgl[1]]."-".$tgl[0];
+
+		$mimeExt = array();
+		$mimeExt['image/jpeg'] ='.jpg';
+		$mimeExt['image/pjpeg'] ='.jpg';
+		$mimeExt['image/bmp'] ='.bmp';
+		$mimeExt['image/gif'] ='.gif';
+		$mimeExt['image/x-icon'] ='.ico';
+		$mimeExt['image/png'] ='.png';
 		//var_dump($tanggal);die;
 		$data = array(
 			'id_kegiatan'=>$id,
-			'nama_kegiatan'=>$nama,
-			'target'=>$trget,
-			'anggaran'=>$anggrn,
-			'realisasi'=>0,
 			'tanggal'=>$tanggal,
+			'anggaran'=>$anggrn,
 			'lokasi'=>$lokasi,
-			'realisasi_anggaran'=>0,
-			'sisa_anggaran'=>0,
+			'nama_pj'=>$pj,
 			'keterangan'=>$ket
 		);
 
+		if ($_FILES['fupload']['name'] != "") {
+			$image = $mimeExt[$_FILES['fupload']['type']]; //Get image extension
+			$lokasi_file = $_FILES['fupload']['tmp_name'];
+			$nama_file   = $_FILES['fupload']['name'];
+			// Tentukan folder untuk menyimpan file
+			$folder = "./assets/file/";
+			$namafilenya ="$nama_file".$image;
+			$alamat=$folder.$namafilenya;
+			if (move_uploaded_file($lokasi_file,$alamat))
+			{
+		 		// echo "Nama File : <b>$nama_file</b> sukses di upload";
+	 			$data['file'] = $namafilenya;
+			}
+		}
+
+		var_dump($data);die;
 		$this->sentril_model->insert_data("tbl_kegiatan",$data);
 		redirect('admin/home/kegiatan');
 	}
+	
 }
