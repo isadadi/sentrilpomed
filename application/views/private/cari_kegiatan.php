@@ -24,24 +24,25 @@
 
                   <div class="x_content">
 
-                    <form class="form-horizontal form-label-left" novalidate method="post" action="<?=base_url('admin/home/insert_proccess')?>" id="aas" enctype="multipart/form-data">
+                    <div class="form-horizontal form-label-left" id="form_ini" novalidate method="post" action="<?=base_url('admin/home/proses_cari')?>">
                       <div class="item form-group">
                         <label for="pj" class="control-label col-md-3 col-sm-3 col-xs-12">Masukkan id</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="inputN" class="form-control col-md-7 col-xs-12" name="id" placeholder="id kegiatan" type="text" required="required">
+                          <input id="inputN" class="form-control col-md-7 col-xs-12 id_kegiatan" name="id" placeholder="id kegiatan" type="text" required="required">
                         </div>
                       </div>
                       
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
                           
-                          <button type="submit" class="btn btn-success">Cari</button>
+                          <button type="submit" class="btn btn-success cari">Cari</button>
                         </div>
                       </div>
-                    </form>
+                    </div>
                     <div class="ln_solid"></div><br>
-                    isinya nanti Ajax load disini senpai, menampilkan seluruh subkegiatan berdasarkan id kegiatab yang dimasukkannya
-
+                    <div id="isi_ajax">
+                    
+                  </div>
                   </div>
                 </div>
               </div>

@@ -34,4 +34,14 @@ class sentril_model extends CI_Model{
 	}
 
 
+	function cari_kegiatan($id){
+		return $this->db->select('*')->from('tbl_kegiatan')
+			->join('tbl_subkegiatan','tbl_kegiatan.id_kegiatan=tbl_subkegiatan.id_kegiatan')
+			->where('tbl_kegiatan.id_kegiatan',$id)->get();
+	}
+
+	function get_subkegiatan($id){
+		return $this->db->where('id_kegiatan',$id)->get('tbl_subkegiatan');
+	}
+
 }

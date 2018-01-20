@@ -38,11 +38,12 @@ class Home extends CI_Controller {
 	}
 
 	public function cari_kegiatan(){
-		$data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
+		//$data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
 		//var_dump($data);die;
 		$this->load->view('private/templates/header_insert');
-		$this->load->view('private/cari_kegiatan',$data);
+		$this->load->view('private/cari_kegiatan');
 		$this->load->view('private/templates/footer_insert');
+		$this->load->view('private/cari_kegiatan_script');
 	}
 	public function insert_proccess(){
 		$id = $this->input->post('id');
@@ -109,6 +110,30 @@ class Home extends CI_Controller {
 		$total =$a['total_kegiatan'];$anggaran=$a['total_anggaran']; 
 		$this->sentril_model->db->query("UPDATE tbl_kegiatan SET realisasi=$total,realisasi_anggaran=$anggaran,sisa_anggaran=sisa_anggaran-$anggrn WHERE id_kegiatan=$id;");
 		redirect('admin/home/kegiatan');
+	}
+
+
+	function proses_cari($id){
+		
+		$kegiatan =  $this->sentril_model->cari_kegiatan($id);
+
+		if($kegiatan->num_rows()>0){
+			$data['error'] = 0;
+			$data['id'] = $id;
+		}
+		else{
+			$data['error'] = 1;
+		}
+
+		header("Content-Type:application/json");
+		echo json_encode($data);
+
+	}
+
+
+	function cari_kegiatan_ajax($id){
+		$data['row'] = $this->sentril_model->get_subkegiatan($id)->result_array();
+		$this->load->view('private/cari_kegiatan_ajax',$data);
 	}
 	
 }
