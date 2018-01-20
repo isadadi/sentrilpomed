@@ -98,6 +98,13 @@
                       </tr>
                       <?php }?>
                     </table>
+                    <br>
+                    <a href="#" class="btn btn-success"><i class="fa fa-print"></i> print</a>
+                    <br>1.kalau di klik terbuka tampilan pdf (pake mpdf) dan tinggal download atau print senpai,<br>
+                    2. kemudian tampilan edit button di sebelah hapus button buat kek kemarin senpai yang pake modal<br>
+                    3. di side menu ada laporan kegiatan, itu isinya nanti folder-folder tempat simpan link2 file subkegiatan yang di upload, dipisah berdasarkan tanggal kegiatan dia senpai foldernya<br>
+                    4. ke side menu data user,perbaiki CRUD add usernya senpai, itu baru bisa add dan delete, tapi passnya ga aku md5 kan, karena gatau cek loginnya apakah cuma md5 apa cemana <br>
+                    5. Buat di CRUD kegiatannya, pas kegiatan dihapus maka di sub kegiatan dengan id yang sama terhapus juga,begitu juga dengan filenya di unlink
                   </div>
                 </div>
               </div>
