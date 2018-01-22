@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 19 Jan 2018 pada 17.41
--- Versi Server: 10.1.25-MariaDB
--- PHP Version: 7.1.7
+-- Generation Time: Jan 22, 2018 at 06:22 AM
+-- Server version: 10.1.10-MariaDB
+-- PHP Version: 5.6.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -25,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_kegiatan`
+-- Table structure for table `tbl_kegiatan`
 --
 
 CREATE TABLE `tbl_kegiatan` (
@@ -43,18 +41,18 @@ CREATE TABLE `tbl_kegiatan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tbl_kegiatan`
+-- Dumping data for table `tbl_kegiatan`
 --
 
 INSERT INTO `tbl_kegiatan` (`id_kegiatan`, `nama_kegiatan`, `target`, `anggaran`, `realisasi`, `tanggal`, `lokasi`, `nama_pj`, `realisasi_anggaran`, `sisa_anggaran`, `keterangan`) VALUES
-(18001, 'Penyuluhan Obat', 10, 13459870, 1, '2018-01-02', 'Binjai', 'fadly', 100000000, -99000000, 'Sangat menarik dan menawan'),
+(18001, 'Penyuluhan Obat', 11, 13459870, 0, '2018-01-11', 'Binjai', 'fadly', 0, 13459870, 'Sangat menarik dan menawan'),
 (18002, 'Penyuluhan Makanan', 8, 15000000, 6, '2018-01-04', 'Medan', 'Sulaiman', 14000000, 1000000, 'Sangat luar biasa dan mempesona kita semua'),
 (18003, 'Penyuluhan Gizi', 5, 900000000, 1, '2018-01-19', 'Medan', 'Fadly', 100000000, 800000000, 'Luar Biasa');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_subkegiatan`
+-- Table structure for table `tbl_subkegiatan`
 --
 
 CREATE TABLE `tbl_subkegiatan` (
@@ -69,16 +67,18 @@ CREATE TABLE `tbl_subkegiatan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tbl_subkegiatan`
+-- Dumping data for table `tbl_subkegiatan`
 --
 
 INSERT INTO `tbl_subkegiatan` (`id_subkegiatan`, `id_kegiatan`, `tanggal_kegiatan`, `anggaran`, `lokasi`, `pj_kegiatan`, `keterangan`, `file`) VALUES
-(18, 18003, '2018-01-19', 100000000, 'kdsj', 'skf', 'skfnj', '18003-2018-01-19-Data Saintek.docx');
+(18, 18003, '2018-01-19', 100000000, 'kdsj', 'skf', 'skfnj', '18003-2018-01-19-Data Saintek.docx'),
+(20, 18001, '2018-01-22', 10000, 'disana', 'siapa', 'klsdksan', '18001-2018-01-21-COA_Labusel.xlsx'),
+(21, 18001, '2018-01-21', 10000, 'disini', 'bambang', 'lksajdk', '18001-2018-01-21-20325_neraca pisah ok.xls');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_user`
+-- Table structure for table `tbl_user`
 --
 
 CREATE TABLE `tbl_user` (
@@ -89,14 +89,13 @@ CREATE TABLE `tbl_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tbl_user`
+-- Dumping data for table `tbl_user`
 --
 
 INSERT INTO `tbl_user` (`id_user`, `username`, `password`, `level`) VALUES
 (1, 'admin', '$2y$10$o1OP69dWACWX7X3wDI2QWODurGsNfpbYna5.cyhePd70m6toQ5xWq', 'superuser'),
-(2, 'ibal', '$2y$10$o1OP69dWACWX7X3wDI2QWODurGsNfpbYna5.cyhePd70m6toQ5xWq', 'admin'),
-(3, 'amel', '$2y$10$x/8hQCUjONAhnVA7dUjLoeg3SvK6eRQPaX4TwxkMskcZ/28FXWBi2', 'petugas'),
-(5, 'fadly', 'aacd1234', 'petugas');
+(2, 'ibal', '$2y$10$2wck2m6e1mHfJSk/tpYKaOI04rsj26tldPPc9Uv/faJugDmkOwmxS', 'admin'),
+(3, 'amel', '$2y$10$x/8hQCUjONAhnVA7dUjLoeg3SvK6eRQPaX4TwxkMskcZ/28FXWBi2', 'petugas');
 
 --
 -- Indexes for dumped tables
@@ -112,7 +111,8 @@ ALTER TABLE `tbl_kegiatan`
 -- Indexes for table `tbl_subkegiatan`
 --
 ALTER TABLE `tbl_subkegiatan`
-  ADD PRIMARY KEY (`id_subkegiatan`);
+  ADD PRIMARY KEY (`id_subkegiatan`),
+  ADD KEY `id_kegiatan` (`id_kegiatan`);
 
 --
 -- Indexes for table `tbl_user`
@@ -128,12 +128,21 @@ ALTER TABLE `tbl_user`
 -- AUTO_INCREMENT for table `tbl_subkegiatan`
 --
 ALTER TABLE `tbl_subkegiatan`
-  MODIFY `id_subkegiatan` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_subkegiatan` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `tbl_user`
 --
 ALTER TABLE `tbl_user`
-  MODIFY `id_user` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;COMMIT;
+  MODIFY `id_user` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tbl_subkegiatan`
+--
+ALTER TABLE `tbl_subkegiatan`
+  ADD CONSTRAINT `tbl_subkegiatan_ibfk_1` FOREIGN KEY (`id_kegiatan`) REFERENCES `tbl_kegiatan` (`id_kegiatan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
