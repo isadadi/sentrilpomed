@@ -31,24 +31,24 @@ class Home extends CI_Controller {
 		$pj = $this->input->post('pj');
 		$ket = $this->input->post('keterangan');
 
-		$tgl = explode("-", $tgl);
+		// $tgl = explode("-", $tgl);
 		$trget = str_replace(".", "",$target);
 		$anggrn = str_replace(".", "",$anggaran);
 
-		$bln["January"] = "01";
-		$bln["February"] = "02";
-		$bln["March"] = "03";
-		$bln["April"] = "04";
-		$bln["May"] = "05";
-		$bln["June"] = "06";
-		$bln["July"] = "07";
-		$bln["August"] = "08";
-		$bln["September"] = "09";
-		$bln["October"] = "10";
-		$bln["November"] = "11";
-		$bln["December"] = "12";
+		// $bln["January"] = "01";
+		// $bln["February"] = "02";
+		// $bln["March"] = "03";
+		// $bln["April"] = "04";
+		// $bln["May"] = "05";
+		// $bln["June"] = "06";
+		// $bln["July"] = "07";
+		// $bln["August"] = "08";
+		// $bln["September"] = "09";
+		// $bln["October"] = "10";
+		// $bln["November"] = "11";
+		// $bln["December"] = "12";
 
-		$tanggal = $tgl[2]."-".$bln[$tgl[1]]."-".$tgl[0];
+		// $tanggal = $tgl[2]."-".$bln[$tgl[1]]."-".$tgl[0];
 		//var_dump($tanggal);die;
 		$data = array(
 			'id_kegiatan'=>$id,
@@ -56,11 +56,12 @@ class Home extends CI_Controller {
 			'target'=>$trget,
 			'anggaran'=>$anggrn,
 			'realisasi'=>0,
-			'tanggal'=>$tanggal,
+			'tanggal'=>$tgl,
 			'lokasi'=>$lokasi,
 			'nama_pj'=>$pj,
 			'realisasi_anggaran'=>0,
 			'sisa_anggaran'=>$anggrn,
+			'sisa_target'=>$target,
 			'keterangan'=>$ket
 		);
 
@@ -72,7 +73,7 @@ class Home extends CI_Controller {
 
 		}
 		$data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
-		$data['total'] = $this->sentril_model->db->query("SELECT count(id_kegiatan) AS total_kegiatan, SUM(anggaran) AS total_anggaran, SUM(sisa_anggaran) AS sisa_anggaran FROM tbl_kegiatan")->result();
+		$data['total'] = $this->sentril_model->db->query("SELECT count(id_kegiatan) AS total_kegiatan, SUM(anggaran) AS total_anggaran, SUM(sisa_anggaran)AS sisa_anggaran FROM tbl_kegiatan")->result();
 		//var_dump($data);die;
 		$this->load->view('spuser/templates/header_table');
 		$this->load->view('spuser/kegiatan',$data);
@@ -161,24 +162,24 @@ class Home extends CI_Controller {
 		$pj = $this->input->post('pj');
 		$ket = $this->input->post('keterangan');
 
-		$tgl = explode("-", $tgl);
+		// $tgl = explode("-", $tgl);
 		$trget = str_replace(".", "",$target);
 		$anggrn = str_replace(".", "",$anggaran);
 
-		$bln["January"] = "01";
-		$bln["February"] = "02";
-		$bln["March"] = "03";
-		$bln["April"] = "04";
-		$bln["May"] = "05";
-		$bln["June"] = "06";
-		$bln["July"] = "07";
-		$bln["August"] = "08";
-		$bln["September"] = "09";
-		$bln["October"] = "10";
-		$bln["November"] = "11";
-		$bln["December"] = "12";
+		// $bln["January"] = "01";
+		// $bln["February"] = "02";
+		// $bln["March"] = "03";
+		// $bln["April"] = "04";
+		// $bln["May"] = "05";
+		// $bln["June"] = "06";
+		// $bln["July"] = "07";
+		// $bln["August"] = "08";
+		// $bln["September"] = "09";
+		// $bln["October"] = "10";
+		// $bln["November"] = "11";
+		// $bln["December"] = "12";
 
-		$tanggal = $tgl[2]."-".$bln[$tgl[1]]."-".$tgl[0];
+		// $tanggal = $tgl[2]."-".$bln[$tgl[1]]."-".$tgl[0];
 		//var_dump($tanggal);die;
 		$data = array(
 			'id_kegiatan'=>$id,
@@ -186,11 +187,12 @@ class Home extends CI_Controller {
 			'target'=>$trget,
 			'anggaran'=>$anggrn,
 			'realisasi'=>0,
-			'tanggal'=>$tanggal,
+			'tanggal'=>$tgl,
 			'lokasi'=>$lokasi,
 			'nama_pj'=>$pj,
 			'realisasi_anggaran'=>0,
 			'sisa_anggaran'=>$anggrn,
+			'sisa_target'=>$trget,
 			'keterangan'=>$ket
 		);
 
@@ -203,7 +205,8 @@ class Home extends CI_Controller {
 		for ($i=0; $i < count($id) ; $i++) { 
 			$gbr = $this->sentril_model->get_file_sub($id[$i])->result_array();
 			foreach($gbr as $file){
-				unlink(base_url('assets/file/').$file['file']);
+				$files = 'assets/file/'.$file['file'];
+				unlink($files);
 			}
 			$this->sentril_model->delete_data("tbl_kegiatan","id_kegiatan",$id[$i]);
 		}
@@ -213,6 +216,12 @@ class Home extends CI_Controller {
 		$id = $this->input->post('checkbox');# Using Form POST method you can use whatever you want like GET
 		//var_dump($id);die;
 		for ($i=0; $i < count($id) ; $i++) { 
+			$gbr = $this->sentril_model->get_file_sub($id[$i])->result_array();
+			//var_dump($gbr);die;
+			foreach($gbr as $data){
+				$file = './assets/file/'.$data['file'];
+				unlink($file);
+			}
 			$this->sentril_model->delete_data("tbl_subkegiatan","id_subkegiatan",$id[$i]);
 		}
 		redirect('superuser/home/kegiatan');
@@ -294,5 +303,16 @@ class Home extends CI_Controller {
 		$data['tanggal'] = $date;
 		$this->load->view('spuser/file_laporan',$data);
 	}
-	
+
+	public function verifikasi(){
+		$id = $this->input->get('id');
+		$id_keg = $this->input->get('id_keg');
+		//var_dump($id_keg);die;
+		$this->sentril_model->db->query("UPDATE tbl_subkegiatan SET status='terverifikasi' WHERE id_subkegiatan='$id'");
+		$a = $this->sentril_model->db->query("SELECT count(id_kegiatan) AS total_kegiatan, sum(anggaran) total_anggaran FROM tbl_subkegiatan WHERE id_kegiatan='$id_keg' AND status='terverifikasi' ORDER BY id_kegiatan;")->row_array();
+		$b = $this->sentril_model->db->query("SELECT anggaran FROM tbl_subkegiatan WHERE id_subkegiatan=$id")->row_array();$anggrn=$b['anggaran'];
+		$total =$a['total_kegiatan'];$anggaran=$a['total_anggaran'];
+		$this->sentril_model->db->query("UPDATE tbl_kegiatan SET realisasi=$total,realisasi_anggaran=$anggaran,sisa_anggaran=sisa_anggaran-$anggrn,sisa_target=target-$total WHERE id_kegiatan='$id_keg';");
+		redirect('superuser/home/log_subkegiatan');
+	}	
 }

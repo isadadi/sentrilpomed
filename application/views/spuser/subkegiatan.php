@@ -53,7 +53,11 @@
                             <td><?php echo $rows['keterangan'];?></td>
                             <td><?php echo $rows['file'];?></td>
                             <td>
-                                <a href="#" class="btn btn-primary"><i class="fa fa-file-text"></i></a>
+                              <?php if($rows['status']=='belum verifikasi'){?>
+                                <a href="<?=base_url().'superuser/home/verifikasi?id='?><?php echo $rows['id_subkegiatan'];?>&&id_keg=<?php echo $rows['id_kegiatan'];?>" onclick="return confirm('yakin ingin verifikasi?')" class="btn btn-primary"><i class="fa fa-file-text"></i></a>
+                              <?php }else{?>
+                                verified
+                              <?php }?>
                                 <button onclick="return confirm('yakin ingin menghpus?')" class="btn btn-danger" type="submit"><i class="fa fa-trash"></i></button>
                             </td>
                           </tr>

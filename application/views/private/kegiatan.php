@@ -6,16 +6,17 @@
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                         <th>Kode</th>
+                          <th>Kode</th>
                           <th>Nama Kegiatan</th>
                           <th>Target</th>
-                          <th>Anggaran</th>
                           <th>Realisasi target</th>
+                          <th>Sisa Target</th>
+                          <th>Anggaran</th>
+                          <th>Realisasi Anggaran</th>
+                          <th>Sisa Anggaran</th>
                           <th>Tanggal mulai</th>
                           <th>Lokasi</th>
                           <th>Penanggungjawab</th>
-                          <th>Realisasi Anggaran</th>
-                          <th>Sisa Anggaran</th>
                           <th>Keterangan</th>
                         </tr>
                       </thead>
@@ -26,13 +27,14 @@
                             <td><?php echo $rows['id_kegiatan'];?></td>
                             <td><?php echo $rows['nama_kegiatan'];?></td>
                             <td><?php echo $rows['target'];?></td>
-                            <td><?php echo "Rp.".number_format($rows['anggaran'],0,'','.');?></td>
                             <td><?php echo $rows['realisasi'];?></td>
+                            <td><?php echo $rows['sisa_target'];?></td>
+                            <td><?php echo "Rp.".number_format($rows['anggaran'],0,'','.');?></td>
+                            <td><?php echo "Rp.".number_format($rows['realisasi_anggaran'],0,'','.');?></td>
+                            <td><?php echo "Rp.".number_format($rows['sisa_anggaran'],0,'','.');?></td>
                             <td><?php echo $rows['tanggal'];?></td>
                             <td><?php echo $rows['lokasi'];?></td>
                             <td><?php echo $rows['nama_pj'];?></td>
-                            <td><?php echo "Rp.".number_format($rows['realisasi_anggaran'],0,'','.');?></td>
-                            <td><?php echo "Rp.".number_format($rows['sisa_anggaran'],0,'','.');?></td>
                             <td><?php echo $rows['keterangan'];?></td>
                           </tr>
                        <?php }?>

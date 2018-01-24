@@ -53,23 +53,23 @@ class Home extends CI_Controller {
 		$pj = $this->input->post('pj');
 		$ket = $this->input->post('keterangan');
 
-		$tgl = explode("-", $tgl);
+		// $tgl = explode("-", $tgl);
 		$anggrn = str_replace(".", "",$anggaran);
 
-		$bln["January"] = "01";
-		$bln["February"] = "02";
-		$bln["March"] = "03";
-		$bln["April"] = "04";
-		$bln["May"] = "05";
-		$bln["June"] = "06";
-		$bln["July"] = "07";
-		$bln["August"] = "08";
-		$bln["September"] = "09";
-		$bln["October"] = "10";
-		$bln["November"] = "11";
-		$bln["December"] = "12";
+		// $bln["January"] = "01";
+		// $bln["February"] = "02";
+		// $bln["March"] = "03";
+		// $bln["April"] = "04";
+		// $bln["May"] = "05";
+		// $bln["June"] = "06";
+		// $bln["July"] = "07";
+		// $bln["August"] = "08";
+		// $bln["September"] = "09";
+		// $bln["October"] = "10";
+		// $bln["November"] = "11";
+		// $bln["December"] = "12";
 
-		$tanggal = $tgl[2]."-".$bln[$tgl[1]]."-".$tgl[0];
+		// $tanggal = $tgl[2]."-".$bln[$tgl[1]]."-".$tgl[0];
 
 		$mimeExt = array();
 		$mimeExt['image/jpeg'] ='.jpg';
@@ -81,11 +81,12 @@ class Home extends CI_Controller {
 		//var_dump($tanggal);die;
 		$data = array(
 			'id_kegiatan'=>$id,
-			'tanggal_kegiatan'=>$tanggal,
+			'tanggal_kegiatan'=>$tgl,
 			'anggaran'=>$anggrn,
 			'lokasi'=>$lokasi,
 			'pj_kegiatan'=>$pj,
-			'keterangan'=>$ket
+			'keterangan'=>$ket,
+			'status'=>'belum verifikasi'
 		);
 
 		if ($_FILES['fupload']['name'] != "") {
@@ -94,7 +95,7 @@ class Home extends CI_Controller {
 			$nama_file   = $_FILES['fupload']['name'];
 			// Tentukan folder untuk menyimpan file
 			$folder = "./assets/file/";
-			$namafilenya ="$id-$tanggal-$nama_file";
+			$namafilenya ="$id-$nama_file";
 			$alamat=$folder.$namafilenya;
 			if (move_uploaded_file($lokasi_file,$alamat))
 			{
@@ -105,10 +106,7 @@ class Home extends CI_Controller {
 
 		//var_dump($data);die;
 		$this->sentril_model->insert_data("tbl_subkegiatan",$data);
-		$a = $this->sentril_model->db->query("SELECT count(id_kegiatan) AS total_kegiatan, sum(anggaran) total_anggaran FROM tbl_subkegiatan WHERE id_kegiatan=$id ORDER BY id_kegiatan;")->row_array();
-
-		$total =$a['total_kegiatan'];$anggaran=$a['total_anggaran']; 
-		$this->sentril_model->db->query("UPDATE tbl_kegiatan SET realisasi=$total,realisasi_anggaran=$anggaran,sisa_anggaran=sisa_anggaran-$anggrn WHERE id_kegiatan=$id;");
+		
 		redirect('admin/home/kegiatan');
 	}
 

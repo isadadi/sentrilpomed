@@ -1,4 +1,3 @@
-
 <div class="row">
              <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -51,13 +50,14 @@
                           <th>Kode</th>
                           <th>Nama Kegiatan</th>
                           <th>Target</th>
-                          <th>Anggaran</th>
                           <th>Realisasi target</th>
+                          <th>Sisa Target</th>
+                          <th>Anggaran</th>
+                          <th>Realisasi Anggaran</th>
+                          <th>Sisa Anggaran</th>
                           <th>Tanggal mulai</th>
                           <th>Lokasi</th>
                           <th>Penanggungjawab</th>
-                          <th>Realisasi Anggaran</th>
-                          <th>Sisa Anggaran</th>
                           <th>Keterangan</th>
                           <th>Aksi</th>
                         </tr>
@@ -70,13 +70,14 @@
                             <td><?php echo $rows['id_kegiatan'];?></td>
                             <td><?php echo $rows['nama_kegiatan'];?></td>
                             <td><?php echo $rows['target'];?></td>
-                            <td><?php echo "Rp.".number_format($rows['anggaran'],0,'','.');?></td>
                             <td><?php echo $rows['realisasi'];?></td>
+                            <td><?php echo $rows['sisa_target'];?></td>
+                            <td><?php echo "Rp.".number_format($rows['anggaran'],0,'','.');?></td>
+                            <td><?php echo "Rp.".number_format($rows['realisasi_anggaran'],0,'','.');?></td>
+                            <td><?php echo "Rp.".number_format($rows['sisa_anggaran'],0,'','.');?></td>
                             <td><?php echo $rows['tanggal'];?></td>
                             <td><?php echo $rows['lokasi'];?></td>
                             <td><?php echo $rows['nama_pj'];?></td>
-                            <td><?php echo "Rp.".number_format($rows['realisasi_anggaran'],0,'','.');?></td>
-                            <td><?php echo "Rp.".number_format($rows['sisa_anggaran'],0,'','.');?></td>
                             <td><?php echo $rows['keterangan'];?></td>
                             <td>
                                 <button  type="button" class="btn btn-primary muncul-modal" onclick="edit_kegiatan(<?=$rows['id_kegiatan']?>)"><i class="fa fa-file-text"></i></button>

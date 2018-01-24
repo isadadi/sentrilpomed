@@ -9,13 +9,13 @@
         <!-- /footer content -->
       </div>
     </div>
-    <script>
+    <!-- <script>
       $(function() { 
-        $('#tgl').datetimepicker({format : "DD/MMMM/YYYY"});
+        $('#dateaja').datetimepicker({format : "DD-MMM-YYYY"});
       });
-    </script>
+    </script> -->
 
-    <script>
+   <!--  <script>
         $(document).ready(function() {
         $("#inputN").keydown(function (e) {
             // Allow: backspace, delete, tab, escape, enter and .
@@ -38,7 +38,7 @@
     });
 });
 
-    </script>
+    </script> -->
     <!-- jQuery -->
     <script src="<?=base_url('assets/vendors/jquery/dist/jquery.min.js')?>"></script>
     <!-- Bootstrap -->
@@ -69,7 +69,7 @@
         $("#dateaja").daterangepicker({
           singleDatePicker: true,
           locale: {
-                format: 'DD-MMMM-YYYY'
+                format: 'DD-MMM-YYYY'
           }
         });
       });

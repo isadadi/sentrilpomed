@@ -55,7 +55,7 @@ class sentril_model extends CI_Model{
 	}
 
 	function get_file_sub($id){
-		return $this->db->select('file')->where('id_kegiatan',$id)->get('tbl_subkegiatan');
+		return $this->db->select('file')->where('id_subkegiatan',$id)->get('tbl_subkegiatan');
 	}
 
 
