@@ -242,7 +242,7 @@ class Home extends CI_Controller {
 
 		$bulan  = array('January','February','March','April','May','June','July','August','September','October','November','December');
 		$tgl = explode('-', $data['tanggal']);
-		$data['tanggal'] = $tgl[2].'-'.$bulan[$tgl[1]-1].'-'.$tgl[0];
+		//$data['tanggal'] = $tgl[2].'-'.$bulan[$tgl[1]-1].'-'.$tgl[0];
 		header("Content-Type:application/json");
 		echo json_encode($data);
 	}
