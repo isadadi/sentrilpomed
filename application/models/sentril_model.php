@@ -37,7 +37,7 @@ class sentril_model extends CI_Model{
 	function cari_kegiatan($id){
 		return $this->db->select('*')->from('tbl_kegiatan')
 			->join('tbl_subkegiatan','tbl_kegiatan.id_kegiatan=tbl_subkegiatan.id_kegiatan')
-			->where('tbl_kegiatan.id_kegiatan',$id)->get();
+			->where('tbl_kegiatan.id_kegiatan',$id)->where('status','terverifikasi')->get();
 	}
 
 	function get_subkegiatan($id){
@@ -76,5 +76,28 @@ class sentril_model extends CI_Model{
 	}
 	function get_file($date){
 		return $this->db->where('tanggal_kegiatan',$date)->get('tbl_subkegiatan');
+	}
+
+
+	function get_kegiatan_su(){
+		return $this->db->query("SELECT *,tbl_kegiatan.anggaran as anggaran2,count(tbl_subkegiatan.anggaran) as realisasi2, sum(tbl_subkegiatan.anggaran) as jlh_anggaran FROM `tbl_kegiatan` join tbl_subkegiatan on tbl_kegiatan.id_kegiatan=tbl_subkegiatan.id_kegiatan where status='terverifikasi' group by tbl_kegiatan.id_kegiatan");
+	}
+
+
+	function get_total_subkegiatan(){
+		return $this->db->query("select sum(anggaran) as sisa_anggaran from tbl_subkegiatan where status='terverifikasi'");
+	}
+
+	function get_total_subkegiatan2($id){
+		return $this->db->query("select sum(anggaran) as sisa_anggaran from tbl_subkegiatan where status='terverifikasi' where id_kegiatan='$id'");
+	}
+
+
+	function get_total_kegiatan(){
+		return $this->db->query("select count(id_kegiatan) as total_kegiatan, sum(anggaran) as total_anggaran from tbl_kegiatan");
+	}
+
+	function get_total_kegiatan2($id){
+		return $this->db->query("select count(id_kegiatan) as total_kegiatan, sum(anggaran) as total_anggaran from tbl_kegiatan where id_kegiatan='$id'");
 	}
 }

@@ -60,6 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <li><a><i class="fa fa-edit"></i> Tambah Kegiatan <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?=base_url('superuser/home/add_kegiatan')?>">Tambah Kegiatan</a></li>
+                      <li><a href="<?=base_url('superuser/home/cari_kegiatan')?>">Cari Kegiatan</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-desktop"></i> Laporan Kegiatan <span class="fa fa-chevron-down"></span></a>

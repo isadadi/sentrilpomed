@@ -70,11 +70,11 @@
                             <td><?php echo $rows['id_kegiatan'];?></td>
                             <td><?php echo $rows['nama_kegiatan'];?></td>
                             <td><?php echo $rows['target'];?></td>
-                            <td><?php echo $rows['realisasi'];?></td>
-                            <td><?php echo $rows['sisa_target'];?></td>
-                            <td><?php echo "Rp.".number_format($rows['anggaran'],0,'','.');?></td>
-                            <td><?php echo "Rp.".number_format($rows['realisasi_anggaran'],0,'','.');?></td>
-                            <td><?php echo "Rp.".number_format($rows['sisa_anggaran'],0,'','.');?></td>
+                            <td><?php echo $rows['realisasi2'];?></td>
+                            <td><?php echo ($rows['target']-$rows['realisasi2']);?></td>
+                            <td><?php echo "Rp.".number_format($rows['anggaran2'],0,'','.');?></td>
+                            <td><?php echo "Rp.".number_format($rows['jlh_anggaran'],0,'','.');?></td>
+                            <td><?php echo "Rp.".number_format($rows['anggaran2']-$rows['jlh_anggaran'],0,'','.');?></td>
                             <td><?php echo $rows['tanggal'];?></td>
                             <td><?php echo $rows['lokasi'];?></td>
                             <td><?php echo $rows['nama_pj'];?></td>
@@ -90,26 +90,31 @@
                     </table>
                     </form>
                     <table>
-                      <?php foreach($total as $row){?>
+                     
                       <tr>
                         <td>Total kegiatan &nbsp</td>
                         <td> : </td>
-                        <td>&nbsp <?php echo $row->total_kegiatan;?></td>
+                        <td>&nbsp <?php echo $total['total_kegiatan'];?></td>
                       </tr>
                       <tr>
                         <td>Total Anggaran &nbsp</td>
                         <td> : </td>
-                        <td>&nbsp <?php echo "Rp. ".number_format($row->total_anggaran,0,'','.');?></td>
+                        <td>&nbsp <?php echo "Rp. ".number_format($total['total_anggaran'],0,'','.');?></td>
+                      </tr>
+                      <tr>
+                        <td>Total Realisasi Anggaran &nbsp</td>
+                        <td> : </td>
+                        <td>&nbsp <?php echo "Rp. ".number_format($subtotal['sisa_anggaran'],0,'','.');?></td>
                       </tr>
                       <tr>
                         <td>Total Sisa Anggaran &nbsp</td>
                         <td> : </td>
-                        <td>&nbsp <?php echo "Rp. ".number_format($row->sisa_anggaran,0,'','.');?></td>
+                        <td>&nbsp <?php echo "Rp. ".number_format($total['total_anggaran']-$subtotal['sisa_anggaran'],0,'','.');?></td>
                       </tr>
-                      <?php }?>
+                     
                     </table>
                     <br>
-                    <a href="#" class="btn btn-success"><i class="fa fa-print"></i> print</a>
+                    <a href="<?=base_url('superuser/home/print_laporan')?>" class="btn btn-success"><i class="fa fa-print"></i> print</a>
                     <br>1.kalau di klik terbuka tampilan pdf (pake mpdf) dan tinggal download atau print senpai,<br>
                     2. kemudian tampilan edit button di sebelah hapus button buat kek kemarin senpai yang pake modal<br>
                     3. di side menu ada laporan kegiatan, itu isinya nanti folder-folder tempat simpan link2 file subkegiatan yang di upload, dipisah berdasarkan tanggal kegiatan dia senpai foldernya<br>
@@ -129,7 +134,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Kelengkapan Berkas</h4>
+                    <h4 class="modal-title">Edit Kegiatan</h4>
                 </div>
                 <div class="modal-body modal-1-body">
                     

@@ -12,7 +12,7 @@ $(document).ready(function() {
         });
       });
 
-	function edit_kegiatan(id){
+	function edit_kegiatan(id){	
 		$.post("<?=base_url('superuser/home/kegiatan_ajax/')?>"+id,function(data){
 			$('#id-kegiatan').prop('value',data.id_kegiatan);
 			$('#nama').prop('value', data.nama_kegiatan);
@@ -22,7 +22,7 @@ $(document).ready(function() {
 			$('#lokasi').prop('value',data.lokasi);
 			$('#pj').prop('value',data.nama_pj);
 			$('#keterangan').prop('value',data.keterangan);
-			$('.modal-1').modal('show');	
+			$('#myModal').modal('show');	
 		});
 		
 	}

@@ -130,6 +130,8 @@ class Home extends CI_Controller {
 
 
 	function cari_kegiatan_ajax($id){
+		$data['total'] = $this->sentril_model->get_total_kegiatan2($id)->row_array();
+		$data['subtotal'] = $this->sentril_model->get_total_subkegiatan2($id)->row_array();
 		$data['row'] = $this->sentril_model->get_subkegiatan($id)->result_array();
 		$this->load->view('private/cari_kegiatan_ajax',$data);
 	}

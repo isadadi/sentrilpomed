@@ -28,7 +28,7 @@
                             <td><?php echo $rows['nama_kegiatan'];?></td>
                             <td><?php echo $rows['target'];?></td>
                             <td><?php echo $rows['realisasi'];?></td>
-                            <td><?php echo $rows['sisa_target'];?></td>
+                            <td><?php echo ($rows['target']-$rows['realisasi']);?></td>
                             <td><?php echo "Rp.".number_format($rows['anggaran'],0,'','.');?></td>
                             <td><?php echo "Rp.".number_format($rows['realisasi_anggaran'],0,'','.');?></td>
                             <td><?php echo "Rp.".number_format($rows['sisa_anggaran'],0,'','.');?></td>
