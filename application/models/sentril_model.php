@@ -89,7 +89,7 @@ class sentril_model extends CI_Model{
 	}
 
 	function get_total_subkegiatan2($id){
-		return $this->db->query("select sum(anggaran) as sisa_anggaran from tbl_subkegiatan where status='terverifikasi' where id_kegiatan='$id'");
+		return $this->db->query("select sum(anggaran) as sisa_anggaran from tbl_subkegiatan where status='terverifikasi' and id_kegiatan='$id'");
 	}
 
 
