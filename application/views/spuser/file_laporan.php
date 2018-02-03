@@ -1,7 +1,7 @@
 <?php
   $tanggal = explode('-', $tanggal);
 ?>
-                  <h5><a href="<?=$_SERVER['HTTP_REFERER']?>"> < kembali </a> | Tanggal : <?=$tanggal[2].'-'.$tanggal[1].'-'.$tanggal[0]?></h5>
+                  <h5><a href="<?=$_SERVER['HTTP_REFERER']?>"> <button class="btn btn-primary"><i class="fa fa-chevron-left"></i></button></a> | Tanggal : <?=$tanggal[0].'-'.$tanggal[1].'-'.$tanggal[2]?></h5>
                     <table class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>

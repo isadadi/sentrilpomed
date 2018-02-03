@@ -32,6 +32,7 @@
                           <th><i class="fa fa-trash"></i></th>
                           <th>Kode</th>
                           <th>Tanggal</th>
+                          <th>Waktu</th>
                           <th>Anggaran</th>
                           <th>Lokasi</th>
                           <th>Penanggungjawab</th>
@@ -47,6 +48,7 @@
                             <td><input type="checkbox" name="checkbox[]" id="check-all" class="flat" value="<?php echo $rows['id_subkegiatan'];?>"></td>
                             <td><?php echo $rows['id_kegiatan'];?></td>
                             <td><?php echo $rows['tanggal_kegiatan'];?></td>
+                            <td><?php echo $rows['jam'];?></td>
                             <td><?php echo "Rp.".number_format($rows['anggaran'],0,'','.');?></td>
                             <td><?php echo $rows['lokasi'];?></td>
                             <td><?php echo $rows['pj_kegiatan'];?></td>

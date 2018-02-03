@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Sentrilpomed | </title>
+    <title>Sintrilpomed | </title>
 
     <!-- Bootstrap -->
     <link href="<?=base_url('assets/vendors/bootstrap/dist/css/bootstrap.min.css')?>" rel="stylesheet">
@@ -62,8 +62,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-home"></i> Sentrilpomed</h1>
-                  <p>©2018 All Rights Reserved. Sentrilpomed is a Bootstrap 3 template. Privacy and Terms
+                  <h1><i class="fa fa-home"></i> Sintrilpomed</h1>
+                  <p>©<?php echo date("Y")?> All Rights Reserved. Sintrilpomed is a Bootstrap 3 template. Privacy and Terms
                 </div>
               </div>
             </form>
@@ -98,8 +98,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-home"></i> Sentrilpomed</h1>
-                  <p>©2018 All Rights Reserved. Sentrilpomed is a Bootstrap 3 template. Privacy and Terms</p>
+                  <h1><i class="fa fa-home"></i> Sintrilpomed</h1>
+                  <p>©<?php echo date("Y")?> All Rights Reserved. Sintrilpomed is a Bootstrap 3 template. Privacy and Terms</p>
                 </div>
               </div>
             </form>

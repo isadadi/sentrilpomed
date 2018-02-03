@@ -2,7 +2,7 @@
         <!-- footer content -->
         <footer>
           <div class="pull-right">
-            Copyright &copy <b>Sentrilpomed</b> <?php echo date("Y");?> -  Develop by <a href="https://www.instagram.com/fadlytanjung_/">MFT</a>
+            Copyright &copy <b>Sintrilpomed</b> <?php echo date("Y");?> -  Develop by <a href="https://www.instagram.com/fadlytanjung_/">MFT</a>
           </div>
           <div class="clearfix"></div>
         </footer>

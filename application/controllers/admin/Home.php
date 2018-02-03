@@ -9,6 +9,7 @@ class Home extends CI_Controller {
         //$this->load->library('session');
 		$this->load->model('sentril_model','',true);
 		$this->load->helper(array('form','file','akses'),'',true);
+		$this->load->library('dompdf_gen');  
 		
 		cek_admin();
 	}
@@ -22,6 +23,8 @@ class Home extends CI_Controller {
 
 	public function kegiatan()
 	{
+		$data['total'] = $this->sentril_model->get_total_kegiatan()->row_array();
+		$data['subtotal'] = $this->sentril_model->get_total_subkegiatan()->row_array();
 		$data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
 		//var_dump($data);die;
 		$this->load->view('private/templates/header_table');
@@ -46,13 +49,15 @@ class Home extends CI_Controller {
 		$this->load->view('private/cari_kegiatan_script');
 	}
 	public function insert_proccess(){
+		date_default_timezone_set('Asia/Jakarta');
 		$id = $this->input->post('id');
 		$anggaran = $this->input->post('anggaran');
 		$tgl = $this->input->post('tanggal');
 		$lokasi = $this->input->post('lokasi');
 		$pj = $this->input->post('pj');
 		$ket = $this->input->post('keterangan');
-
+		$jam = date('h:i A');
+		
 		// $tgl = explode("-", $tgl);
 		$anggrn = str_replace(".", "",$anggaran);
 
@@ -82,6 +87,7 @@ class Home extends CI_Controller {
 		$data = array(
 			'id_kegiatan'=>$id,
 			'tanggal_kegiatan'=>$tgl,
+			'jam'=>$jam,
 			'anggaran'=>$anggrn,
 			'lokasi'=>$lokasi,
 			'pj_kegiatan'=>$pj,
@@ -114,7 +120,7 @@ class Home extends CI_Controller {
 	function proses_cari($id){
 		
 		$kegiatan =  $this->sentril_model->cari_kegiatan($id);
-
+		
 		if($kegiatan->num_rows()>0){
 			$data['error'] = 0;
 			$data['id'] = $id;
@@ -134,6 +140,254 @@ class Home extends CI_Controller {
 		$data['subtotal'] = $this->sentril_model->get_total_subkegiatan2($id)->row_array();
 		$data['row'] = $this->sentril_model->get_subkegiatan($id)->result_array();
 		$this->load->view('private/cari_kegiatan_ajax',$data);
+	}
+
+	function print_laporan(){
+		$this->load->library('PHPExcel');
+
+		 $this->phpexcel->setActiveSheetIndex(0)->setCellValue('A1', 'Tanggal : '.date('d-m-Y'))
+        ->setCellValue('A2', 'Kode')
+        ->setCellValue('B2', 'Nama Kegiatan')
+        ->setCellValue('C2', 'Target')
+        ->setCellValue('D2', 'Realisasi Target')
+        ->setCellValue('E2', 'Sisa Target')
+        ->setCellValue('F2', 'Anggaran')
+        ->setCellValue('G2', 'Realisasi Anggaran')
+        ->setCellValue('H2', 'Sisa Anggaran')
+        ->setCellValue('I2', 'Tanggal Mulai')
+        ->setCellValue('J2', 'Lokasi')
+        ->setCellValue('K2', 'Penanggung Jawab')
+        ->setCellValue('L2', 'Keterangan');
+        
+
+          $styleTop = array(
+            'borders' => array(
+              'top' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_MEDIUM
+               ),
+               'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+               )
+            ),
+
+         );
+         $styleBottom = array(
+             'borders' => array(
+               'bottom' => array(
+                   'style' => PHPExcel_Style_Border::BORDER_MEDIUM
+                   )
+               )
+             );
+       $styleRight = array(
+          'borders' => array(
+             'right' => array(
+                 'style' => PHPExcel_Style_Border::BORDER_MEDIUM
+                 )
+             )
+          );
+
+          $styleLeft = array(
+          'borders' => array(
+             'left' => array(
+                 'style' => PHPExcel_Style_Border::BORDER_MEDIUM
+                 )
+             )
+          );
+
+           $styleDefault = array(
+          'borders' => array(
+             'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+               )
+             )
+          );
+      
+        // set align center
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:H2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+ 		$this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('H')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('I')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('J')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('K')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('L')->setAutoSize(true);
+
+        $detail = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
+		$total = $this->sentril_model->get_total_kegiatan()->row_array();
+		$subtotal = $this->sentril_model->get_total_subkegiatan()->row_array();
+
+		$row=3;
+		foreach($detail as $data){
+			  $this->phpexcel->setActiveSheetIndex(0)
+			  		->setCellValue('A' . $row, $data['id_kegiatan'])
+			  		->setCellValue('B' . $row, $data['nama_kegiatan'])
+			  		->setCellValue('C' . $row, $data['target'])
+			  		->setCellValue('D' . $row, $data['realisasi'])
+			  		->setCellValue('E' . $row, ($data['sisa_target']))
+			  		->setCellValue('F' . $row, ("Rp. ".number_format($data['anggaran'],0,'','.')))
+			  		->setCellValue('G' . $row, ("Rp. ".number_format($data['realisasi_anggaran'],0,'','.')))
+			  		->setCellValue('H' . $row, ("Rp.".number_format($data['sisa_anggaran'],0,'','.')))
+			  		->setCellValue('I' . $row, $data['tanggal'])
+			  		->setCellValue('J' . $row, $data['lokasi'])
+			  		->setCellValue('K' . $row, $data['nama_pj'])
+			  		->setCellValue('L' . $row, $data['keterangan']);
+
+			  $this->phpexcel->setActiveSheetIndex(0)->getStyle('A'.$row.':L'.$row)->applyFromArray($styleDefault);
+			 $row++;
+		}
+
+
+		  // set style
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:L2')->applyFromArray($styleTop);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('L2:L'.($row-1))->applyFromArray($styleRight);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:A'.($row-1))->applyFromArray($styleLeft);
+		 $this->phpexcel->setActiveSheetIndex(0)->getStyle('A' . ($row-1).':L'.($row-1))->applyFromArray($styleBottom);
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="'.date('d-m-Y').'-laporan-kegiatan.xlsx"');
+        header('Cache-Control: max-age=0');
+        // output
+        $obj_writer = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel2007');
+        $obj_writer->save('php://output');
+	}
+
+	function print_laporan_sub(){
+		$id = $this->input->get('id');
+		
+		$this->load->library('PHPExcel');
+
+		 $this->phpexcel->setActiveSheetIndex(0)->setCellValue('A1', 'Tanggal : '.date('d-m-Y'))
+        ->setCellValue('A2', 'Tanggal Kegiatan')
+        ->setCellValue('B2', 'Jam')
+        ->setCellValue('C2', 'Anggaran')
+        ->setCellValue('D2', 'Lokasi')
+        ->setCellValue('E2', 'PJ Kegiatan')
+        ->setCellValue('F2', 'Keterangan')
+        ->setCellValue('G2', 'File');
+        
+          $styleTop = array(
+            'borders' => array(
+              'top' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_MEDIUM
+               ),
+               'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+               )
+            ),
+
+         );
+         $styleBottom = array(
+             'borders' => array(
+               'bottom' => array(
+                   'style' => PHPExcel_Style_Border::BORDER_MEDIUM
+                   )
+               )
+             );
+       $styleRight = array(
+          'borders' => array(
+             'right' => array(
+                 'style' => PHPExcel_Style_Border::BORDER_MEDIUM
+                 )
+             )
+          );
+
+          $styleLeft = array(
+          'borders' => array(
+             'left' => array(
+                 'style' => PHPExcel_Style_Border::BORDER_MEDIUM
+                 )
+             )
+          );
+
+           $styleDefault = array(
+          'borders' => array(
+             'allborders' => array(
+                  'style' => PHPExcel_Style_Border::BORDER_THIN
+               )
+             )
+          );
+      
+        // set align center
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:H2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+ 		$this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
+        
+        $detail = $this->sentril_model->get_subkegiatan($id)->result_array();
+		$total = $this->sentril_model->get_total_kegiatan()->row_array();
+		$subtotal = $this->sentril_model->get_total_subkegiatan()->row_array();
+
+		$row=3;
+		foreach($detail as $data){
+			  $this->phpexcel->setActiveSheetIndex(0)
+			  		->setCellValue('A' . $row, $data['tanggal_kegiatan'])
+			  		->setCellValue('B' . $row, $data['jam'])
+			  		->setCellValue('C' . $row, ("Rp. ".number_format($data['anggaran'],0,'','.')))
+			  		->setCellValue('D' . $row, $data['lokasi'])
+			  		->setCellValue('E' . $row, $data['pj_kegiatan'])
+			  		->setCellValue('F' . $row, $data['keterangan'])
+			  		->setCellValue('G' . $row, $data['file']);
+			  		
+			  $this->phpexcel->setActiveSheetIndex(0)->getStyle('A'.$row.':G'.$row)->applyFromArray($styleDefault);
+			 $row++;
+		}
+
+		  // set style
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:G2')->applyFromArray($styleTop);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('G2:G'.($row-1))->applyFromArray($styleRight);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:A'.($row-1))->applyFromArray($styleLeft);
+		 $this->phpexcel->setActiveSheetIndex(0)->getStyle('A' . ($row-1).':G'.($row-1))->applyFromArray($styleBottom);
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="'.date('d-m-Y').'-laporan-subkegiatan.xlsx"');
+        header('Cache-Control: max-age=0');
+        // output
+        $obj_writer = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel2007');
+        $obj_writer->save('php://output');
+	}
+
+	function cetak_pdf(){
+		$data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
+		$data['total'] = $this->sentril_model->get_total_kegiatan()->row_array();
+		$data['subtotal'] = $this->sentril_model->get_total_subkegiatan()->row_array();
+		$this->load->view("spuser/cetak",$data);
+		
+      	$paper_size  = 'A4'; //paper size
+        $orientation = 'landscape'; //tipe format kertas
+        $html = $this->output->get_output();
+
+        $this->dompdf->set_paper($paper_size, $orientation);
+        //Convert to PDF
+        $this->dompdf->load_html($html);
+        $this->dompdf->render();
+        $this->dompdf->stream("laporan.pdf", array('Attachment'=>0));
+	}
+
+	function cetak_pdf_sub(){
+		$id = $this->input->get("id");
+		$data['nama'] = $this->sentril_model->get_data("tbl_kegiatan","id_kegiatan",$id)->row_array();
+		$data['total'] = $this->sentril_model->get_total_kegiatan2($id)->row_array();
+		$data['subtotal'] = $this->sentril_model->get_total_subkegiatan2($id)->row_array();
+		$data['row'] = $this->sentril_model->get_subkegiatan($id)->result_array();
+		$this->load->view("spuser/cetak_sub",$data);
+		
+      	$paper_size  = 'A4'; //paper size
+        $orientation = 'landscape'; //tipe format kertas
+        $html = $this->output->get_output();
+
+        $this->dompdf->set_paper($paper_size, $orientation);
+        //Convert to PDF
+        $this->dompdf->load_html($html);
+        $this->dompdf->render();
+        $this->dompdf->stream("laporan.pdf", array('Attachment'=>0));
 	}
 	
 }

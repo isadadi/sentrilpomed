@@ -41,7 +41,33 @@
                       </tbody>
                     </table>
             <!--         </form> -->
-          
+                     <table>
+                     
+                      <tr>
+                        <td>Total kegiatan &nbsp</td>
+                        <td> : </td>
+                        <td>&nbsp <?php echo $total['total_kegiatan'];?></td>
+                      </tr>
+                      <tr>
+                        <td>Total Anggaran &nbsp</td>
+                        <td> : </td>
+                        <td>&nbsp <?php echo "Rp. ".number_format($total['total_anggaran'],0,'','.');?></td>
+                      </tr>
+                      <tr>
+                        <td>Total Realisasi Anggaran &nbsp</td>
+                        <td> : </td>
+                        <td>&nbsp <?php echo "Rp. ".number_format($subtotal['sisa_anggaran'],0,'','.');?></td>
+                      </tr>
+                      <tr>
+                        <td>Total Sisa Anggaran &nbsp</td>
+                        <td> : </td>
+                        <td>&nbsp <?php echo "Rp. ".number_format($total['total_anggaran']-$subtotal['sisa_anggaran'],0,'','.');?></td>
+                      </tr>
+                     
+                    </table>
+                    <br>
+                    <a href="<?=base_url('admin/home/print_laporan')?>" class="btn btn-success"><i class="fa fa fa-file-excel-o"></i> Export</a>
+                    <a href="<?=base_url('admin/home/cetak_pdf')?>" target="blank" class="btn btn-danger"><i class="fa fa fa-file-pdf-o"></i> Pdf</a>
                   </div>
                 </div>
               </div>

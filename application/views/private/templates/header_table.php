@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Sentrilpomed | Kegiatan</title>
+    <title>Sintrilpomed | Kegiatan</title>
     <!-- Bootstrap -->
     <link href="<?=base_url('assets/vendors/bootstrap/dist/css/bootstrap.min.css')?>" rel="stylesheet">
     <!-- Font Awesome -->
@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="col-md-3 left_col menu_fixed">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"><i class="fa fa-home"></i> <span>Sentrilpomed</span></a>
+              <a href="index.html" class="site_title"><i class="fa fa-home"></i> <span>Sintrilpomed</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2><?php echo $this->session->userdata('sp_role');?></h2>
+                <h2><?php echo $this->session->userdata('sp_user');?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -74,11 +74,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <li><a href="<?=base_url('admin/home/add_kegiatan')?>">Tambah Kegiatan</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-desktop"></i> Laporan Kegiatan <span class="fa fa-chevron-down"></span></a>
+                 <!--  <li><a><i class="fa fa-desktop"></i> Laporan Kegiatan <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="#">Laporan kegiatan</a></li>
                     </ul>
-                  </li>
+                  </li> -->
                   <li><a><i class="fa fa-table"></i> Tabel Kegiatan <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="<?=base_url('admin/home/kegiatan')?>">Kegiatan</a></li>
@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt=""><?php echo $this->session->userdata('sp_role');?>
+                    <img src="images/img.jpg" alt=""><?php echo $this->session->userdata('sp_user');?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">

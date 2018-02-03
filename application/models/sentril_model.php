@@ -41,7 +41,7 @@ class sentril_model extends CI_Model{
 	}
 
 	function get_subkegiatan($id){
-		return $this->db->where('id_kegiatan',$id)->get('tbl_subkegiatan');
+		return $this->db->where(array('id_kegiatan'=>$id,'status'=>'terverifikasi'))->get('tbl_subkegiatan');
 	}
 
 
@@ -57,8 +57,9 @@ class sentril_model extends CI_Model{
 	function get_file_sub($id){
 		return $this->db->select('file')->where('id_subkegiatan',$id)->get('tbl_subkegiatan');
 	}
-
-
+	function get_file_keg($id){
+		return $this->db->select('file')->where('id_kegiatan',$id)->get('tbl_subkegiatan');
+	}
 	function get_user($id){
 		return $this->db->where('username',$id)->get('tbl_user');
 	}

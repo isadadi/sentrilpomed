@@ -70,11 +70,11 @@
                             <td><?php echo $rows['id_kegiatan'];?></td>
                             <td><?php echo $rows['nama_kegiatan'];?></td>
                             <td><?php echo $rows['target'];?></td>
-                            <td><?php echo $rows['realisasi2'];?></td>
-                            <td><?php echo ($rows['target']-$rows['realisasi2']);?></td>
-                            <td><?php echo "Rp.".number_format($rows['anggaran2'],0,'','.');?></td>
-                            <td><?php echo "Rp.".number_format($rows['jlh_anggaran'],0,'','.');?></td>
-                            <td><?php echo "Rp.".number_format($rows['anggaran2']-$rows['jlh_anggaran'],0,'','.');?></td>
+                            <td><?php echo $rows['realisasi'];?></td>
+                            <td><?php echo ($rows['target']-$rows['realisasi']);?></td>
+                            <td><?php echo "Rp.".number_format($rows['anggaran'],0,'','.');?></td>
+                            <td><?php echo "Rp.".number_format($rows['realisasi_anggaran'],0,'','.');?></td>
+                            <td><?php echo "Rp.".number_format($rows['anggaran']-$rows['realisasi_anggaran'],0,'','.');?></td>
                             <td><?php echo $rows['tanggal'];?></td>
                             <td><?php echo $rows['lokasi'];?></td>
                             <td><?php echo $rows['nama_pj'];?></td>
@@ -114,13 +114,9 @@
                      
                     </table>
                     <br>
-                    <a href="<?=base_url('superuser/home/print_laporan')?>" class="btn btn-success"><i class="fa fa-print"></i> print</a>
-                    <br>1.kalau di klik terbuka tampilan pdf (pake mpdf) dan tinggal download atau print senpai,<br>
-                    2. kemudian tampilan edit button di sebelah hapus button buat kek kemarin senpai yang pake modal<br>
-                    3. di side menu ada laporan kegiatan, itu isinya nanti folder-folder tempat simpan link2 file subkegiatan yang di upload, dipisah berdasarkan tanggal kegiatan dia senpai foldernya<br>
-                    4. ke side menu data user,perbaiki CRUD add usernya senpai, itu baru bisa add dan delete, tapi passnya ga aku md5 kan, karena gatau cek loginnya apakah cuma md5 apa cemana <br>
-                    5. Buat di CRUD kegiatannya, pas kegiatan dihapus maka di sub kegiatan dengan id yang sama terhapus juga,begitu juga dengan filenya di unlink
-                  </div>
+                    <a href="<?=base_url('superuser/home/print_laporan')?>" class="btn btn-success"><i class="fa fa fa-file-excel-o"></i> Export</a>
+                    <a href="<?=base_url('superuser/home/cetak_pdf')?>" target="blank" class="btn btn-danger"><i class="fa fa fa-file-pdf-o"></i> Pdf</a>
+                 </div>
                 </div>
               </div>
             </div>
