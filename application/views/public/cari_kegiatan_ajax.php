@@ -22,6 +22,7 @@
           <tr>
            <th>No</th>
             <th>Tanggal Kegiatan</th>
+            <th>Tanggal Input</th>
             <th>anggaran</th>
             <th>Lokasi</th>
             <th>PJ Kegiatan</th>
@@ -35,6 +36,7 @@
             <tr>
               <td><?=$i++;?></td>
               <td><?=$rows['tanggal_kegiatan']?></td>
+              <td><?=$rows['tanggal_input']?></td>
               <td><?="Rp.".number_format($rows['anggaran'],0,'','.')?></td>
               <td><?php echo $rows['lokasi'];?></td>
               <td><?php echo $rows['pj_kegiatan'];?></td>

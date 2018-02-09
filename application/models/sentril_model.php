@@ -69,11 +69,11 @@ class sentril_model extends CI_Model{
 	}
 
 	function get_file_date($limit, $offset){
-		return $this->db->select('tanggal_kegiatan')->from('tbl_subkegiatan')->group_by('tanggal_kegiatan')->order_by('tanggal_kegiatan','desc')->limit($limit,$offset)->get();
+		return $this->db->select('tanggal_kegiatan')->from('tbl_subkegiatan')->group_by('tanggal_kegiatan')->order_by('tanggal_kegiatan','desc')->where('status','terverifikasi')->limit($limit,$offset)->get();
 	}
 
 	function get_file_total(){
-		return $this->db->select('tanggal_kegiatan')->from('tbl_subkegiatan')->group_by('tanggal_kegiatan')->order_by('tanggal_kegiatan','desc')->get();
+		return $this->db->select('tanggal_kegiatan')->from('tbl_subkegiatan')->group_by('tanggal_kegiatan')->order_by('tanggal_kegiatan','desc')->where('status','terverifikasi')->get();
 	}
 	function get_file($date){
 		return $this->db->where('tanggal_kegiatan',$date)->get('tbl_subkegiatan');

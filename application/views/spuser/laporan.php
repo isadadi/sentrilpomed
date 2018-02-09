@@ -12,7 +12,7 @@
     
               <div class="x_content">              
                   
-                    <?php foreach($file as $f){ 
+                    <?php if(isset($file))foreach($file as $f){ 
                         $tanggal = $f['tanggal_kegiatan'];
                         $tgl = explode('-', $tanggal);
                       ?>
@@ -20,7 +20,8 @@
                           <a href="#" onclick="ke_file('<?=base_url('superuser/home/file_laporan/').$tanggal?>')"><?=$tgl[0].'-'.$tgl[1].'-'.$tgl[2]?></a>
                           <hr>
                       </div>
-                    <?php } ?>
+                    <?php }
+                    else echo "data kosong"; ?>
                     
                     <?php if(isset($links)){ ?>
                       <div>

@@ -35,9 +35,17 @@
               <?php if(isset($pesan)){
                           if($pesan==1){
                      ?>
-                      <p style="color:green">Kegiatan Berhasil Diubah</p>
+                      <div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Kegiatan </strong> berhasil diubah
+                  </div>
                     <?php }else{ ?>
-                      <p style="color:red">Kegiatan Gagal Diubah</p>
+                       <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+                    </button>
+                    <strong>Kegiatan </strong> gagal Diubah
+                  </div>
                      <?php  }} ?>
                     <p class="text-muted font-13 m-b-30">
                       Data kegiatan
@@ -80,7 +88,7 @@
                             <td><?php echo $rows['nama_pj'];?></td>
                             <td><?php echo $rows['keterangan'];?></td>
                             <td>
-                                <button  type="button" class="btn btn-primary muncul-modal" onclick="edit_kegiatan(<?=$rows['id_kegiatan']?>)"><i class="fa fa-file-text"></i></button>
+                                <button  type="button" class="btn btn-primary muncul-modal" onclick="edit_kegiatan('<?=$rows['id_kegiatan']?>')"><i class="fa fa-file-text"></i></button>
                                 <button onclick="confirm('yakin ingin menghpus?')" class="btn btn-danger" type="submit"><i class="fa fa-trash"></i></button>
                             </td>
                           </tr>
@@ -147,14 +155,14 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="target">Target <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="target" name="target" class="form-control col-md-7 col-xs-12" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);" required="required">
+                          <input type="text" id="target" name="target" class="form-control col-md-7 col-xs-12" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);" required="required" readonly>
                         </div>
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="anggaran" >Anggaran <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="anggaran" name="anggaran" class="form-control col-md-7 col-xs-12" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);" required="required">
+                          <input type="text" id="anggaran" name="anggaran" class="form-control col-md-7 col-xs-12" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);" required="required" readonly>
                         </div>
                       </div>                     
                       <div class="item form-group">

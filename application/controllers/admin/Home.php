@@ -53,6 +53,8 @@ class Home extends CI_Controller {
 		$id = $this->input->post('id');
 		$anggaran = $this->input->post('anggaran');
 		$tgl = $this->input->post('tanggal');
+		$tgl_input = date("d-M-Y");
+		//var_dump($tgl_input);die;
 		$lokasi = $this->input->post('lokasi');
 		$pj = $this->input->post('pj');
 		$ket = $this->input->post('keterangan');
@@ -87,6 +89,7 @@ class Home extends CI_Controller {
 		$data = array(
 			'id_kegiatan'=>$id,
 			'tanggal_kegiatan'=>$tgl,
+			'tanggal_input'=>$tgl_input,
 			'jam'=>$jam,
 			'anggaran'=>$anggrn,
 			'lokasi'=>$lokasi,
@@ -203,7 +206,7 @@ class Home extends CI_Controller {
           );
       
         // set align center
-        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:H2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:L2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
  		$this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
@@ -241,7 +244,6 @@ class Home extends CI_Controller {
 			 $row++;
 		}
 
-
 		  // set style
         $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:L2')->applyFromArray($styleTop);
         $this->phpexcel->setActiveSheetIndex(0)->getStyle('L2:L'.($row-1))->applyFromArray($styleRight);
@@ -263,12 +265,13 @@ class Home extends CI_Controller {
 
 		 $this->phpexcel->setActiveSheetIndex(0)->setCellValue('A1', 'Tanggal : '.date('d-m-Y'))
         ->setCellValue('A2', 'Tanggal Kegiatan')
-        ->setCellValue('B2', 'Jam')
-        ->setCellValue('C2', 'Anggaran')
-        ->setCellValue('D2', 'Lokasi')
-        ->setCellValue('E2', 'PJ Kegiatan')
-        ->setCellValue('F2', 'Keterangan')
-        ->setCellValue('G2', 'File');
+        ->setCellValue('B2', 'Tanggal Input')
+        ->setCellValue('C2', 'Jam')
+        ->setCellValue('D2', 'Anggaran')
+        ->setCellValue('E2', 'Lokasi')
+        ->setCellValue('F2', 'PJ Kegiatan')
+        ->setCellValue('G2', 'Keterangan')
+        ->setCellValue('H2', 'File');
         
           $styleTop = array(
             'borders' => array(
@@ -320,7 +323,8 @@ class Home extends CI_Controller {
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
-        
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+
         $detail = $this->sentril_model->get_subkegiatan($id)->result_array();
 		$total = $this->sentril_model->get_total_kegiatan()->row_array();
 		$subtotal = $this->sentril_model->get_total_subkegiatan()->row_array();
@@ -329,22 +333,23 @@ class Home extends CI_Controller {
 		foreach($detail as $data){
 			  $this->phpexcel->setActiveSheetIndex(0)
 			  		->setCellValue('A' . $row, $data['tanggal_kegiatan'])
-			  		->setCellValue('B' . $row, $data['jam'])
-			  		->setCellValue('C' . $row, ("Rp. ".number_format($data['anggaran'],0,'','.')))
-			  		->setCellValue('D' . $row, $data['lokasi'])
-			  		->setCellValue('E' . $row, $data['pj_kegiatan'])
-			  		->setCellValue('F' . $row, $data['keterangan'])
-			  		->setCellValue('G' . $row, $data['file']);
+			  		->setCellValue('B' . $row, $data['tanggal_input'])
+			  		->setCellValue('C' . $row, $data['jam'])
+			  		->setCellValue('D' . $row, ("Rp. ".number_format($data['anggaran'],0,'','.')))
+			  		->setCellValue('E' . $row, $data['lokasi'])
+			  		->setCellValue('F' . $row, $data['pj_kegiatan'])
+			  		->setCellValue('G' . $row, $data['keterangan'])
+			  		->setCellValue('H' . $row, $data['file']);
 			  		
-			  $this->phpexcel->setActiveSheetIndex(0)->getStyle('A'.$row.':G'.$row)->applyFromArray($styleDefault);
+			  $this->phpexcel->setActiveSheetIndex(0)->getStyle('A'.$row.':H'.$row)->applyFromArray($styleDefault);
 			 $row++;
 		}
 
 		  // set style
-        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:G2')->applyFromArray($styleTop);
-        $this->phpexcel->setActiveSheetIndex(0)->getStyle('G2:G'.($row-1))->applyFromArray($styleRight);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:H2')->applyFromArray($styleTop);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('H2:H'.($row-1))->applyFromArray($styleRight);
         $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:A'.($row-1))->applyFromArray($styleLeft);
-		 $this->phpexcel->setActiveSheetIndex(0)->getStyle('A' . ($row-1).':G'.($row-1))->applyFromArray($styleBottom);
+		 $this->phpexcel->setActiveSheetIndex(0)->getStyle('A' . ($row-1).':H'.($row-1))->applyFromArray($styleBottom);
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="'.date('d-m-Y').'-laporan-subkegiatan.xlsx"');

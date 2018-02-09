@@ -66,9 +66,9 @@ class Home extends CI_Controller {
 	}
 
 	function print_laporan(){
-		$this->load->library('PHPExcel');
+    $this->load->library('PHPExcel');
 
-		 $this->phpexcel->setActiveSheetIndex(0)->setCellValue('A1', 'Tanggal : '.date('d-m-Y'))
+     $this->phpexcel->setActiveSheetIndex(0)->setCellValue('A1', 'Tanggal : '.date('d-m-Y'))
         ->setCellValue('A2', 'Kode')
         ->setCellValue('B2', 'Nama Kegiatan')
         ->setCellValue('C2', 'Target')
@@ -126,8 +126,8 @@ class Home extends CI_Controller {
           );
       
         // set align center
-        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:H2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
- 		$this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:L2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
@@ -140,7 +140,7 @@ class Home extends CI_Controller {
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('K')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('L')->setAutoSize(true);
 
-         $detail = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
+        $detail = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
     $total = $this->sentril_model->get_total_kegiatan()->row_array();
     $subtotal = $this->sentril_model->get_total_subkegiatan()->row_array();
 
@@ -164,12 +164,11 @@ class Home extends CI_Controller {
        $row++;
     }
 
-
-		  // set style
+      // set style
         $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:L2')->applyFromArray($styleTop);
         $this->phpexcel->setActiveSheetIndex(0)->getStyle('L2:L'.($row-1))->applyFromArray($styleRight);
         $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:A'.($row-1))->applyFromArray($styleLeft);
-		 $this->phpexcel->setActiveSheetIndex(0)->getStyle('A' . ($row-1).':L'.($row-1))->applyFromArray($styleBottom);
+     $this->phpexcel->setActiveSheetIndex(0)->getStyle('A' . ($row-1).':L'.($row-1))->applyFromArray($styleBottom);
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="'.date('d-m-Y').'-laporan-kegiatan.xlsx"');
@@ -177,21 +176,22 @@ class Home extends CI_Controller {
         // output
         $obj_writer = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel2007');
         $obj_writer->save('php://output');
-	}
+  }
 
-	function print_laporan_sub(){
-		$id = $this->input->get('id');
-		
-		$this->load->library('PHPExcel');
+  function print_laporan_sub(){
+    $id = $this->input->get('id');
+    
+    $this->load->library('PHPExcel');
 
-		 $this->phpexcel->setActiveSheetIndex(0)->setCellValue('A1', 'Tanggal : '.date('d-m-Y'))
+     $this->phpexcel->setActiveSheetIndex(0)->setCellValue('A1', 'Tanggal : '.date('d-m-Y'))
         ->setCellValue('A2', 'Tanggal Kegiatan')
-        ->setCellValue('B2', 'Jam')
-        ->setCellValue('C2', 'Anggaran')
-        ->setCellValue('D2', 'Lokasi')
-        ->setCellValue('E2', 'PJ Kegiatan')
-        ->setCellValue('F2', 'Keterangan')
-        ->setCellValue('G2', 'File');
+        ->setCellValue('B2', 'Tanggal Input')
+        ->setCellValue('C2', 'Jam')
+        ->setCellValue('D2', 'Anggaran')
+        ->setCellValue('E2', 'Lokasi')
+        ->setCellValue('F2', 'PJ Kegiatan')
+        ->setCellValue('G2', 'Keterangan')
+        ->setCellValue('H2', 'File');
         
           $styleTop = array(
             'borders' => array(
@@ -237,37 +237,39 @@ class Home extends CI_Controller {
       
         // set align center
         $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:H2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
- 		$this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
+    $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
-        
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+
         $detail = $this->sentril_model->get_subkegiatan($id)->result_array();
-		$total = $this->sentril_model->get_total_kegiatan()->row_array();
-		$subtotal = $this->sentril_model->get_total_subkegiatan()->row_array();
+    $total = $this->sentril_model->get_total_kegiatan()->row_array();
+    $subtotal = $this->sentril_model->get_total_subkegiatan()->row_array();
 
-		$row=3;
-		foreach($detail as $data){
-			  $this->phpexcel->setActiveSheetIndex(0)
-			  		->setCellValue('A' . $row, $data['tanggal_kegiatan'])
-			  		->setCellValue('B' . $row, $data['jam'])
-			  		->setCellValue('C' . $row, ("Rp. ".number_format($data['anggaran'],0,'','.')))
-			  		->setCellValue('D' . $row, $data['lokasi'])
-			  		->setCellValue('E' . $row, $data['pj_kegiatan'])
-			  		->setCellValue('F' . $row, $data['keterangan'])
-			  		->setCellValue('G' . $row, $data['file']);
-			  		
-			  $this->phpexcel->setActiveSheetIndex(0)->getStyle('A'.$row.':G'.$row)->applyFromArray($styleDefault);
-			 $row++;
-		}
+    $row=3;
+    foreach($detail as $data){
+        $this->phpexcel->setActiveSheetIndex(0)
+            ->setCellValue('A' . $row, $data['tanggal_kegiatan'])
+            ->setCellValue('B' . $row, $data['tanggal_input'])
+            ->setCellValue('C' . $row, $data['jam'])
+            ->setCellValue('D' . $row, ("Rp. ".number_format($data['anggaran'],0,'','.')))
+            ->setCellValue('E' . $row, $data['lokasi'])
+            ->setCellValue('F' . $row, $data['pj_kegiatan'])
+            ->setCellValue('G' . $row, $data['keterangan'])
+            ->setCellValue('H' . $row, $data['file']);
+            
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A'.$row.':H'.$row)->applyFromArray($styleDefault);
+       $row++;
+    }
 
-		  // set style
-        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:G2')->applyFromArray($styleTop);
-        $this->phpexcel->setActiveSheetIndex(0)->getStyle('G2:G'.($row-1))->applyFromArray($styleRight);
+      // set style
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:H2')->applyFromArray($styleTop);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('H2:H'.($row-1))->applyFromArray($styleRight);
         $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:A'.($row-1))->applyFromArray($styleLeft);
-		 $this->phpexcel->setActiveSheetIndex(0)->getStyle('A' . ($row-1).':G'.($row-1))->applyFromArray($styleBottom);
+     $this->phpexcel->setActiveSheetIndex(0)->getStyle('A' . ($row-1).':H'.($row-1))->applyFromArray($styleBottom);
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="'.date('d-m-Y').'-laporan-subkegiatan.xlsx"');
@@ -275,15 +277,15 @@ class Home extends CI_Controller {
         // output
         $obj_writer = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel2007');
         $obj_writer->save('php://output');
-	}
+  }
 
-	function cetak_pdf(){
-		$data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
-		$data['total'] = $this->sentril_model->get_total_kegiatan()->row_array();
-		$data['subtotal'] = $this->sentril_model->get_total_subkegiatan()->row_array();
-		$this->load->view("spuser/cetak",$data);
-		
-      	$paper_size  = 'A4'; //paper size
+  function cetak_pdf(){
+    $data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
+    $data['total'] = $this->sentril_model->get_total_kegiatan()->row_array();
+    $data['subtotal'] = $this->sentril_model->get_total_subkegiatan()->row_array();
+    $this->load->view("spuser/cetak",$data);
+    
+        $paper_size  = 'A4'; //paper size
         $orientation = 'landscape'; //tipe format kertas
         $html = $this->output->get_output();
 
@@ -292,17 +294,17 @@ class Home extends CI_Controller {
         $this->dompdf->load_html($html);
         $this->dompdf->render();
         $this->dompdf->stream("laporan.pdf", array('Attachment'=>0));
-	}
+  }
 
-	function cetak_pdf_sub(){
-		$id = $this->input->get("id");
-		$data['nama'] = $this->sentril_model->get_data("tbl_kegiatan","id_kegiatan",$id)->row_array();
-		$data['total'] = $this->sentril_model->get_total_kegiatan2($id)->row_array();
-		$data['subtotal'] = $this->sentril_model->get_total_subkegiatan2($id)->row_array();
-		$data['row'] = $this->sentril_model->get_subkegiatan($id)->result_array();
-		$this->load->view("spuser/cetak_sub",$data);
-		
-      	$paper_size  = 'A4'; //paper size
+  function cetak_pdf_sub(){
+    $id = $this->input->get("id");
+    $data['nama'] = $this->sentril_model->get_data("tbl_kegiatan","id_kegiatan",$id)->row_array();
+    $data['total'] = $this->sentril_model->get_total_kegiatan2($id)->row_array();
+    $data['subtotal'] = $this->sentril_model->get_total_subkegiatan2($id)->row_array();
+    $data['row'] = $this->sentril_model->get_subkegiatan($id)->result_array();
+    $this->load->view("spuser/cetak_sub",$data);
+    
+        $paper_size  = 'A4'; //paper size
         $orientation = 'landscape'; //tipe format kertas
         $html = $this->output->get_output();
 
@@ -311,6 +313,5 @@ class Home extends CI_Controller {
         $this->dompdf->load_html($html);
         $this->dompdf->render();
         $this->dompdf->stream("laporan.pdf", array('Attachment'=>0));
-	}
-	
+  }
 }

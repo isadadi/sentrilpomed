@@ -54,15 +54,9 @@ class Home extends CI_Controller {
 		$data = array(
 			'id_kegiatan'=>$id,
 			'nama_kegiatan'=>$nama,
-			'target'=>$trget,
-			'anggaran'=>$anggrn,
-			'realisasi'=>0,
 			'tanggal'=>$tgl,
 			'lokasi'=>$lokasi,
 			'nama_pj'=>$pj,
-			'realisasi_anggaran'=>0,
-			'sisa_anggaran'=>$anggrn,
-			'sisa_target'=>$target,
 			'keterangan'=>$ket
 		);
 
@@ -152,6 +146,24 @@ class Home extends CI_Controller {
 		$this->load->view('spuser/templates/footer_insert');
 	}
 
+	public function kurangi_anggaran()
+	{	
+		$data['row'] = $this->sentril_model->get_all_data("tbl_kegiatan")->result_array();
+		$this->load->view('spuser/templates/header_insert');
+		$this->load->view('spuser/min_anggaran',$data);
+		$this->load->view('spuser/templates/footer_insert');
+	}
+
+	public function kurangi_anggaran_proccess(){
+		$id = $this->input->post('id');
+		$target = $this->input->post('target');
+		$anggaran = $this->input->post('anggaran');
+		$trget = str_replace(".", "",$target);
+		$anggrn = str_replace(".", "",$anggaran);
+		$this->sentril_model->db->query("UPDATE tbl_kegiatan SET target=target-$trget,anggaran=anggaran-$anggrn,sisa_anggaran=sisa_anggaran-$anggrn,sisa_target=sisa_target-$trget WHERE id_kegiatan='$id'");
+		redirect('superuser/home/kegiatan');
+	}
+
 	public function tambah_anggaran_proccess(){
 		$id = $this->input->post('id');
 		$target = $this->input->post('target');
@@ -161,6 +173,7 @@ class Home extends CI_Controller {
 		$this->sentril_model->db->query("UPDATE tbl_kegiatan SET target=target+$trget,anggaran=anggaran+$anggrn,sisa_anggaran=sisa_anggaran+$anggrn,sisa_target=sisa_target+$trget WHERE id_kegiatan='$id'");
 		redirect('superuser/home/kegiatan');
 	}
+
 	public function log_subkegiatan()
 	{
 		$data['row'] = $this->sentril_model->get_all_data("tbl_subkegiatan")->result_array();
@@ -225,7 +238,6 @@ class Home extends CI_Controller {
 	}
 	public function delete(){
 		$id = $this->input->post('checkbox');# Using Form POST method you can use whatever you want like GET
-		//var_dump($id);die;
 		for ($i=0; $i < count($id) ; $i++) { 
 			$gbr = $this->sentril_model->get_file_keg($id[$i])->result_array();
 			foreach($gbr as $data){
@@ -238,7 +250,10 @@ class Home extends CI_Controller {
 		redirect('superuser/home/kegiatan');
 	}
 	public function delete_subkegiatan(){
-		$id = $this->input->post('checkbox');# Using Form POST method you can use whatever you want like GET
+		$id = $this->input->post('checkbox');# Using Form POST method you can use whatever you want 
+		//$id = $this->input->get('id');
+		// $id_keg = $this->input->get('id_keg');
+		// $agr = $this->input->get('agr');
 		//var_dump($id);die;
 		for ($i=0; $i < count($id) ; $i++) { 
 			$gbr = $this->sentril_model->get_file_sub($id[$i])->result_array();
@@ -247,8 +262,26 @@ class Home extends CI_Controller {
 				$file = './assets/file/'.$data['file'];
 				unlink($file);
 			}
+			$data_blk = $gbr = $this->sentril_model->get_data("tbl_subkegiatan","id_subkegiatan",$id[$i])->row();
+			//var_dump($data_blk->status);die;
+			if($data_blk->status=='terverifikasi'){
+				$this->sentril_model->db->query("UPDATE tbl_kegiatan SET realisasi=realisasi-1,sisa_target=sisa_target+1,realisasi_anggaran=realisasi_anggaran-$data_blk->anggaran,sisa_anggaran=sisa_anggaran+$data_blk->anggaran WHERE id_kegiatan='$data_blk->id_kegiatan'");
+			}
 			$this->sentril_model->delete_data("tbl_subkegiatan","id_subkegiatan",$id[$i]);
+			
 		}
+		// $gbr = $this->sentril_model->get_file_sub($id)->row_array();
+		// $file = './assets/file/'.$gbr['file'];
+		// unlink($file);
+
+		// $stat = $this->sentril_model->db->query("SELECT status FROM tbl_subkegiatan WHERE id_subkegiatan='$id'")->row_array();
+		// //var_dump($gbr);die;
+		// if($stat['status']=='terverifikasi'){
+		// $this->sentril_model->db->query("UPDATE tbl_kegiatan SET realisasi=realisasi-1,sisa_target=sisa_target+1,realisasi_anggaran=realisasi_anggaran-$agr,sisa_anggaran=sisa_anggaran+$agr WHERE id_kegiatan='$id_keg'");
+		// $this->sentril_model->delete_data("tbl_subkegiatan","id_subkegiatan",$id);
+		// }else{
+		// 	$this->sentril_model->delete_data("tbl_subkegiatan","id_subkegiatan",$id);
+		// }
 		redirect('superuser/home/kegiatan');
 	}
 	public function delete_user(){
@@ -282,6 +315,7 @@ class Home extends CI_Controller {
 	function laporan(){
 		$this->load->library('pagination');
 		$total_rows = $this->sentril_model->get_file_total()->num_rows();
+		$data = [];
 
 		if($total_rows>0){
 			$limit = 10;
@@ -446,7 +480,7 @@ class Home extends CI_Controller {
           );
       
         // set align center
-        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:H2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:L2')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
  		$this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('A')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('B')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('C')->setAutoSize(true);
@@ -505,12 +539,13 @@ class Home extends CI_Controller {
 
 		 $this->phpexcel->setActiveSheetIndex(0)->setCellValue('A1', 'Tanggal : '.date('d-m-Y'))
         ->setCellValue('A2', 'Tanggal Kegiatan')
-        ->setCellValue('B2', 'Jam')
-        ->setCellValue('C2', 'Anggaran')
-        ->setCellValue('D2', 'Lokasi')
-        ->setCellValue('E2', 'PJ Kegiatan')
-        ->setCellValue('F2', 'Keterangan')
-        ->setCellValue('G2', 'File');
+        ->setCellValue('B2', 'Tanggal Input')
+        ->setCellValue('C2', 'Jam')
+        ->setCellValue('D2', 'Anggaran')
+        ->setCellValue('E2', 'Lokasi')
+        ->setCellValue('F2', 'PJ Kegiatan')
+        ->setCellValue('G2', 'Keterangan')
+        ->setCellValue('H2', 'File');
         
           $styleTop = array(
             'borders' => array(
@@ -562,7 +597,8 @@ class Home extends CI_Controller {
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('D')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('E')->setAutoSize(true);
         $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('F')->setAutoSize(true);
-        
+        $this->phpexcel->setActiveSheetIndex(0)->getColumnDimension('G')->setAutoSize(true);
+
         $detail = $this->sentril_model->get_subkegiatan($id)->result_array();
 		$total = $this->sentril_model->get_total_kegiatan()->row_array();
 		$subtotal = $this->sentril_model->get_total_subkegiatan()->row_array();
@@ -571,22 +607,23 @@ class Home extends CI_Controller {
 		foreach($detail as $data){
 			  $this->phpexcel->setActiveSheetIndex(0)
 			  		->setCellValue('A' . $row, $data['tanggal_kegiatan'])
-			  		->setCellValue('B' . $row, $data['jam'])
-			  		->setCellValue('C' . $row, ("Rp. ".number_format($data['anggaran'],0,'','.')))
-			  		->setCellValue('D' . $row, $data['lokasi'])
-			  		->setCellValue('E' . $row, $data['pj_kegiatan'])
-			  		->setCellValue('F' . $row, $data['keterangan'])
-			  		->setCellValue('G' . $row, $data['file']);
+			  		->setCellValue('B' . $row, $data['tanggal_input'])
+			  		->setCellValue('C' . $row, $data['jam'])
+			  		->setCellValue('D' . $row, ("Rp. ".number_format($data['anggaran'],0,'','.')))
+			  		->setCellValue('E' . $row, $data['lokasi'])
+			  		->setCellValue('F' . $row, $data['pj_kegiatan'])
+			  		->setCellValue('G' . $row, $data['keterangan'])
+			  		->setCellValue('H' . $row, $data['file']);
 			  		
-			  $this->phpexcel->setActiveSheetIndex(0)->getStyle('A'.$row.':G'.$row)->applyFromArray($styleDefault);
+			  $this->phpexcel->setActiveSheetIndex(0)->getStyle('A'.$row.':H'.$row)->applyFromArray($styleDefault);
 			 $row++;
 		}
 
 		  // set style
-        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:G2')->applyFromArray($styleTop);
-        $this->phpexcel->setActiveSheetIndex(0)->getStyle('G2:G'.($row-1))->applyFromArray($styleRight);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:H2')->applyFromArray($styleTop);
+        $this->phpexcel->setActiveSheetIndex(0)->getStyle('H2:H'.($row-1))->applyFromArray($styleRight);
         $this->phpexcel->setActiveSheetIndex(0)->getStyle('A2:A'.($row-1))->applyFromArray($styleLeft);
-		 $this->phpexcel->setActiveSheetIndex(0)->getStyle('A' . ($row-1).':G'.($row-1))->applyFromArray($styleBottom);
+		 $this->phpexcel->setActiveSheetIndex(0)->getStyle('A' . ($row-1).':H'.($row-1))->applyFromArray($styleBottom);
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="'.date('d-m-Y').'-laporan-subkegiatan.xlsx"');

@@ -37,12 +37,18 @@
 
                       </div>
                       <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Tanggal <span class="required">*</span>
+                        <!-- <label class="control-label col-md-3 col-sm-3 col-xs-12">Tanggal <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input type="text" class="form-control has-feedback-left" id="dateaja" placeholder="First Name" name="tanggal" aria-describedby="inputSuccess2Status" required="required">
                             <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                             <span id="inputSuccess2Status" class="sr-only">(success)</span>
+                        </div> -->
+                        <label for="lokasi" class="control-label col-md-3">Tanggal Kegiatan
+                          <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="lokasi" type="text" name="tanggal" class="form-control col-md-7 col-xs-12" required="required">
                         </div>
                       </div>
                       <div class="item form-group">

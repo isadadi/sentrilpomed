@@ -31,7 +31,8 @@
                         <tr>
                           <th><i class="fa fa-trash"></i></th>
                           <th>Kode</th>
-                          <th>Tanggal</th>
+                          <th>Tanggal Kegiatan</th>
+                          <th>Tanggal Input</th>
                           <th>Waktu</th>
                           <th>Anggaran</th>
                           <th>Lokasi</th>
@@ -45,9 +46,11 @@
                         <!-- <input type="checkbox" id="check-all" class="flat"> -->
                        <?php foreach ($row as $rows) {?>
                           <tr>
-                            <td><input type="checkbox" name="checkbox[]" id="check-all" class="flat" value="<?php echo $rows['id_subkegiatan'];?>"></td>
+                            <td><input type="checkbox" name="checkbox[]" id="check-all" class="flat" value="<?php echo $rows['id_subkegiatan'];?>">
+                            </td>
                             <td><?php echo $rows['id_kegiatan'];?></td>
                             <td><?php echo $rows['tanggal_kegiatan'];?></td>
+                            <td><?php echo $rows['tanggal_input'];?></td>
                             <td><?php echo $rows['jam'];?></td>
                             <td><?php echo "Rp.".number_format($rows['anggaran'],0,'','.');?></td>
                             <td><?php echo $rows['lokasi'];?></td>
@@ -60,7 +63,8 @@
                               <?php }else{?>
                                 verified
                               <?php }?>
-                                <button onclick="return confirm('yakin ingin menghpus?')" class="btn btn-danger" type="submit"><i class="fa fa-trash"></i></button>
+                                <!-- <a href="<?=base_url().'superuser/home/delete_subkegiatan?id='?><?php echo $rows['id_subkegiatan'];?>&&id_keg=<?php echo $rows['id_kegiatan'];?>&&agr=<?php echo $rows['anggaran'];?>" onclick="return confirm('yakin ingin menghpus?')" class="btn btn-danger"><i class="fa fa-trash"></i></a> -->
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('yakin ingin menghpus?')" ><i class="fa fa-trash"></i></button>
                             </td>
                           </tr>
                        <?php }?>

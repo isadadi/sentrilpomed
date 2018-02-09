@@ -1,6 +1,6 @@
                   <div class="x_content">
 
-                    <form class="form-horizontal form-label-left" novalidate method="post" action="<?=base_url('superuser/home/tambah_anggaran_proccess')?>" id="aas">
+                    <form class="form-horizontal form-label-left" novalidate method="post" action="<?=base_url('superuser/home/kurangi_anggaran_proccess')?>" id="aas">
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="id">ID Kegiatan <span class="required">*</span>
                         </label>
@@ -31,7 +31,7 @@
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
                           
-                          <button type="submit" class="btn btn-success">Tambah Anggaran</button>
+                          <button type="submit" class="btn btn-success">Kurangi Anggaran</button>
                         </div>
                       </div>
                     </form>

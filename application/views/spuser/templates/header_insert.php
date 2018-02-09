@@ -81,7 +81,9 @@
                     <ul class="nav child_menu">
                       <li><a href="<?=base_url('superuser/home/kegiatan')?>">Kegiatan</a></li>
                       <li><a href="<?=base_url('superuser/home/log_subkegiatan')?>">Sub Kegiatan</a></li>
-                      <li><a href="<?=base_url('superuser/home/tambah_anggaran')?>">Tambah Anggaran</a></li>
+                      <li><a href="<?=base_url('superuser/home/tambah_anggaran')?>">Tambah Anggaran</a>
+                      </li>
+                      <li><a href="<?=base_url('superuser/home/kurangi_anggaran')?>">Kurangi Anggaran</a></li>
                     </ul>
                   </li>
                 </ul>
